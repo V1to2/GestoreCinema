@@ -1,6 +1,5 @@
 import React from "react";
-import Movies from '../components/Movie/Movies.js';
-
+import Login from "../components/Login/login.js";
 const About = () => {
     return (
         <div
@@ -11,7 +10,7 @@ const About = () => {
                 height: '100vh'
             }}
         >
-            <Movies />
+            <Login />
         </div>
     );
 };

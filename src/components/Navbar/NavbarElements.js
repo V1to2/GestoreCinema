@@ -10,7 +10,7 @@ export const Nav = styled.nav`
     align-items: center;
     padding: 0.2rem;
     padding-left: 2rem;
-    z-index: 12;
+    width: 100vw;
 `;
 export const NavLogo = styled(Link)`
   cursor: pointer;
@@ -50,7 +50,6 @@ export const Bars = styled(FaBars)`
 export const NavMenu = styled.div`
   display: flex;
   align-items: center;
-  margin-right: -24px;
 
   @media screen and (max-width: 768px) {
     display: none;

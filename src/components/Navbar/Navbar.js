@@ -37,14 +37,11 @@ const Navbar = () => {
                     Contact
                 </NavLink>
                 <NavLink 
-                  to="/signin" 
+                  to="/Login" 
                   activeStyle={{ color: 'black' }}
                 >
-                    Sign In
+                    Login In
                 </NavLink>
-                <NavBtn>
-                    <NavBtnLink to="/sign-up">Sign Up</NavBtnLink>                
-                </NavBtn>
             </NavMenu> 
            </Nav> 
         </>
