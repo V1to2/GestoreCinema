@@ -19,31 +19,48 @@ import {
     CloseButton,
 } from '@chakra-ui/react';
 
+import axios from 'axios';
 import "./login.css";
 
 
 const Login = () => {
+    function login() {
+
+        console.log("asd");
+        var passwordInserita = document.getElementById('username').value;
+        var emailInserita = document.getElementById('email').value;
+
+        axios
+            .get(
+                'https://87.250.73.22/html/Zanchin/vcoopendays/loginTest.php?emailInserita=' +
+                emailInserita +
+                '&passwordInserita=' +
+                passwordInserita
+            )
+            .then(res => {
+                if (res.data == '1' || res.data == '2' || res.data == '3') {
+
+                } else {
+
+                }
+            });
+    }
     return (
         <div className="main">
-            <div class="background">
-                <div class="shape"></div>
-                <div class="shape"></div>
+            <div className="background">
+                <div className="shape"></div>
+                <div className="shape"></div>
             </div>
-            <form>
+            <div className="divBack">
                 <h3>Login Here</h3>
-
-                <label for="username">Username</label>
+                <label htmlFor="username">Username</label>
                 <input type="text" placeholder="Email or Phone" id="username" />
 
-                <label for="password">Password</label>
+                <label htmlFor="password">Password</label>
                 <input type="password" placeholder="Password" id="password" />
 
-                <button>Log In</button>
-                <div class="social">
-                    <div class="go"><i class="fab fa-google"></i>  Google</div>
-                    <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
-                </div>
-            </form>
+                <button className="buttoninvio" onClick={login}>Log In</button>
+            </div>
         </div>
     );
 };
