@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/preset-env": "^7.16.11",
     "@chakra-ui/provider": "^1.7.12",
     "@chakra-ui/react": "^1.8.6",
     "@chakra-ui/theme": "^1.14.0",
@@ -15,16 +16,21 @@
     "mdbreact": "^5.2.0",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
+    "react-awesome-slider": "^4.1.0",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.2.2",
     "react-scripts": "^5.0.0",
+    "react-slick": "^0.29.0",
     "react-social-login-buttons": "^3.6.0",
     "resolve-url-loader": "^5.0.0",
     "rsuite": "^5.6.6",
     "sass": "^1.50.0",
+    "slick-carousel": "^1.8.1",
     "styled": "^1.0.0",
     "styled-components": "^5.3.5",
+    "swiper": "^8.1.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -50,5 +56,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.16.7",
+    "@babel/preset-react": "^7.16.7",
+    "css-loader": "^6.7.1",
+    "style-loader": "^3.3.1"
   }
 }

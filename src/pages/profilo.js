@@ -1,16 +1,11 @@
 import React from "react";
+import Profile from "../components/profilo/Profile"
+
 const About = () => {
     return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100vh'
-            }}
-        >
-            asd
-        </div>
+        <>
+            <Profile />
+        </>
     );
 };
 

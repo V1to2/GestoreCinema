@@ -46,7 +46,7 @@ const Login = () => {
                     document.cookie = 'username=' + emailInserita;
                     //window.location.href = 'profilo';
                 } else {
-                    console.log("hno loggato");
+                    console.log("no loggato");
 
                 }
             });

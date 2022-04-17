@@ -1,10 +1,12 @@
 import React from 'react';
 import Movie from '../components/FilmCard/Card';
 import '../components/FilmCard/css.sass';
+import Slider from '../components/Sliders.js';
+
+
+
 const Home = () => {
-   
-  
-  
+
   const infos = [
     {
       title: 'Thor',
@@ -12,10 +14,10 @@ const Home = () => {
       duration: '124',
       year: '2011',
       director: 'Kenneth Branagh',
-      cast: ['Chris Hemsworth','Anthony Hopkins','Natalie Portman'],
+      cast: ['Chris Hemsworth', 'Anthony Hopkins', 'Natalie Portman'],
       rating: 8.7,
       imdbLink: 'https://www.imdb.com/title/tt0800369/',
-      poster:  'http://media.comicbook.com/2017/10/thor-movie-poster-marvel-cinematic-universe-1038890.jpg'
+      poster: 'http://media.comicbook.com/2017/10/thor-movie-poster-marvel-cinematic-universe-1038890.jpg'
     },
     {
       title: 'The Shawshank Redemption',
@@ -61,16 +63,20 @@ const Home = () => {
       imdbLink: 'https://www.imdb.com/title/tttt0120201/',
       poster: "https://m.media-amazon.com/images/M/MV5BNThlOTFhOGEtZjE2NC00MzMzLThkYWItZjlkNWNlMDAzMGZkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SY1000_CR0,0,732,1000_AL_.jpg"
     },
-    
+
   ]
 
   const moviesList = infos.map((movie, i) => (
     <Movie key={i} infos={movie} />
   ))
   return (
-    <div className='movies__container'>
-      {moviesList}
-    </div>
+    <>
+      <Slider infos={infos}/>
+
+      <div className='movies__container'>
+        {moviesList}
+      </div>
+    </>
   );
 };
 
