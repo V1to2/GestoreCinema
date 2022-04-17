@@ -15,6 +15,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from './pages';
 import About from './pages/about.js';
 import Login from './pages/Login.js';
+import Profilo from './pages/profilo.js';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="about" element={<About />} />
       <Route path="Login" element={<Login />} />
+      <Route path="profilo" element={<Profilo />} />
     </Routes>
     </ChakraProvider>
   );

@@ -8,9 +8,9 @@ export const Nav = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.2rem;
+    padding: 0.7rem;
     padding-left: 2rem;
-    width: 100vw;
+    width: 100%;
 `;
 export const NavLogo = styled(Link)`
   cursor: pointer;
