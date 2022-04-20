@@ -34,7 +34,7 @@ a
   flex-direction: column
   justify-content: space-between
   background-blend-mode: color
-  max-width: 270px
+  width: 270px
   height: 400.1px
   box-shadow: 10px 10px 10px #111
   transition: background-color .25s linear
@@ -54,10 +54,12 @@ a
 .movie__title
   +scaleDown
   text-transform: uppercase
+  font-weight: bold 
   
 .movie__description
   max-height: 200px
   +scaleDown(0.05s)
+  overflow: auto
   
 .movie__infos
   display: grid

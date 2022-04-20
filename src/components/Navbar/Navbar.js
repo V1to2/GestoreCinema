@@ -27,6 +27,17 @@ import {
     MenuButton,
     MenuItem,
     MenuList,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    FormControl,
+    FormLabel,
+    Input,
+    Center
 } from '@chakra-ui/react';
 import {
     AiOutlineMenu,
@@ -57,6 +68,8 @@ import {
     FaSchool,
     FaTwitter,
 } from 'react-icons/fa';
+
+import Login from '../Login/login';
 export default function Navbar() {
 
     const [loggato, setLoggato] = useState(false);
@@ -84,6 +97,30 @@ export default function Navbar() {
         }
     }, []);
 
+    const [loginErrato, setLoginErrato] = useState(false);
+    const [datiUtente, setDatiUtente] = useState(false);
+
+    function login() {
+        var passwordInserita = document.getElementById('password').value;
+        var emailInserita = document.getElementById('email').value;
+
+
+        axios
+            .get(
+                'https://87.250.73.22/html/Popa/Cinema/PHP/login.php?email=' + emailInserita + '&password=' + passwordInserita + ''
+            )
+            .then(res => {
+                if (res.data != 0) {
+                    setLoginErrato(false);
+                    setDatiUtente(emailInserita);
+                    document.cookie = 'username=' + emailInserita;
+                    window.location.href = 'profilo';
+                } else {
+                    document.getElementById('password').value = "";
+                }
+            });
+    }
+
     function logout() {
         // rimuovo il cookie profilo e ricarico la homepage
         document.cookie = 'username' + '=; Max-Age=-99999999;';
@@ -91,23 +128,33 @@ export default function Navbar() {
         window.location.href = '/';
     }
 
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const OverlayTwo = () => (
+        <ModalOverlay
+            bg='none'
+            backdropFilter='auto'
+            backdropInvert='20%'
+            backdropBlur='10px'
+        />
+    )
+
+    const [overlay, setOverlay] = React.useState(<OverlayTwo />)
+
     return (
         <>
             <Nav>
                 <NavLogo to="/">
                     Logo
                 </NavLogo>
-                <Bars />
-
-                <NavMenu>
-                    {/*
+                <Bars>
                     <NavLink
-                        to="/contact"
+                        to="/profilo"
                         activeStyle={{ color: 'black' }}
                     >
-                        Contact
+                        Profilo
                     </NavLink>
-    */}
+                </Bars>
+                <NavMenu>
                     {loggato ? (
                         <Menu>
                             <MenuButton>
@@ -139,11 +186,41 @@ export default function Navbar() {
                                     Registrati
                                 </Button>
                             </Link>
-                            <Link to="login">
-                                <Button colorScheme="linkedin" leftIcon={<BsPersonFill />}>
-                                    Login
-                                </Button>
-                            </Link>
+                            <Button onClick={() => {
+                                setOverlay(<OverlayTwo />)
+                                onOpen()
+                            }} colorScheme="linkedin" leftIcon={<BsPersonFill />}>
+                                Login
+                            </Button>
+
+                            <Modal isOpen={isOpen} onClose={onClose}>
+                                {overlay}
+                                <ModalContent>
+                                    <ModalHeader >
+                                        <Center pt="10" h='12px' color='white'>
+                                            Accedi al tuo account
+                                        </Center>
+                                    </ModalHeader>
+                                    <ModalBody>
+                                        <FormControl isRequired>
+                                            <FormLabel>Email</FormLabel>
+                                            <Input type='email' placeholder='Email@test.com' id='email' />
+                                        </FormControl>
+
+                                        <FormControl isRequired>
+                                            <FormLabel>Password</FormLabel>
+                                            <Input type='password' placeholder='Password' id='password' />
+                                        </FormControl>
+                                    </ModalBody>
+
+                                    <ModalFooter>
+                                        <Button onClick={login} colorScheme='blue' mr={3}>
+                                            LogIn
+                                        </Button>
+                                        <Button onClick={onClose}>Cancel</Button>
+                                    </ModalFooter>
+                                </ModalContent>
+                            </Modal>
                         </Flex>
                     )}
                 </NavMenu>

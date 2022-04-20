@@ -2,21 +2,30 @@ import { React, useState } from "react";
 import {
     chakra,
     Box,
-    GridItem,
-    useColorModeValue,
-    Button,
-    Stack,
-    Center,
     Flex,
-    Icon,
-    SimpleGrid,
+    useColorModeValue,
     VisuallyHidden,
-    Input,
-    Alert,
-    AlertIcon,
-    AlertTitle,
-    AlertDescription,
+    HStack,
+    Button,
+    useDisclosure,
+    VStack,
+    IconButton,
     CloseButton,
+    Avatar,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    FormControl,
+    FormLabel,
+    Input
 } from '@chakra-ui/react';
 
 import axios from 'axios';
@@ -25,61 +34,57 @@ import "./login.css";
 
 
 const Login = () => {
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const [loginErrato, setLoginErrato] = useState(false);
     const [datiUtente, setDatiUtente] = useState(false);
-  
+
     function login() {
         var passwordInserita = document.getElementById('password').value;
         var emailInserita = document.getElementById('email').value;
-        
-        
+
+
         axios
             .get(
-                'https://87.250.73.22/html/Popa/Cinema/PHP/login.php?email=aaronmessina@eetieg.com&password=EEjFlFa1TE'
+                'https://87.250.73.22/html/Popa/Cinema/PHP/login.php?email=' + emailInserita + '&password=' + passwordInserita + ''
             )
             .then(res => {
-                console.log("res:" + res);
-                console.log("res.data:" + res.data)
                 if (res.data != 0) {
                     setLoginErrato(false);
                     setDatiUtente(emailInserita);
                     document.cookie = 'username=' + emailInserita;
-                    //window.location.href = 'profilo';
+                    window.location.href = 'profilo';
                 } else {
-                    console.log("no loggato");
-
+                    document.getElementById('password').value = "";
                 }
             });
     }
     return (
-        <div className="main">
-            <div className="background">
-                <div className="shape"></div>
-                <div className="shape"></div>
-            </div>
-            <div className="divBack">
-                <h3>Login Here</h3>
-                <label htmlFor="email">Email</label>
-                <Input
-                    mt={0}
-                    type="email"
-                    placeholder="Email"
-                    required="true"
-                    id="email"
-                  />
+        <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>Create your account</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody pb={6}>
+                    <FormControl>
+                        <FormLabel>Email</FormLabel>
+                        <Input placeholder='Email@test.com' />
+                    </FormControl>
 
-                <label htmlFor="password">Password</label>
-                <Input
-                    mt={0}
-                    type="password"
-                    placeholder="Password"
-                    required="true"
-                    id="password"
-                  />
+                    <FormControl mt={4}>
+                        <FormLabel>Password</FormLabel>
+                        <Input placeholder='Password' />
+                    </FormControl>
+                </ModalBody>
 
-                <button className="buttoninvio" onClick={login}>Log In</button>
-            </div>
-        </div>
+                <ModalFooter>
+                    <Button colorScheme='blue' mr={3}>
+                        LogIn
+                    </Button>
+                    <Button onClick={onClose}>Cancel</Button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
     );
 };
 export default Login;

@@ -30,30 +30,16 @@ const MovieInfo = ({ name, value }) => (
     </div>
 )
 
-
+const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 const Movie = ({ infos }) => {
-    const cast = infos.cast.map(actor => (
-        <p key={actor}>{actor}</p>
-    ))
     return (
-        <div className='movie' style={{ backgroundImage: `url(${infos.poster})` }}>
-
-            <h2 className='movie__title'>{infos.title}</h2>
-
-            <span className='movie__description'>{infos.description}</span>
+        <div className='movie' style={{ backgroundImage: `url(${getImage(infos.poster_path)})` }}>
+            <h3 font-weight="bold" className='movie__title'>{infos.title}</h3>
+            <span className='movie__description'>{infos.overview}</span>
 
             <div className='movie__infos'>
-                <MovieInfo name='duration' value={infos.duration} />
-                <MovieInfo name='director' value={infos.director} />
-                <MovieInfo name='year' value={infos.year} />
-                <MovieInfo name='cast' value={cast} />
+                <MovieInfo name='year' value={infos.release_date} />
             </div>
-
-            <div className='movie__imdb'>
-                <Rating rating={Math.round(infos.rating)} />
-                <a href={infos.imdbLink} className='movie__imdb-button' target='blank'> IMDb </a>
-            </div>
-
         </div>
     )
 }

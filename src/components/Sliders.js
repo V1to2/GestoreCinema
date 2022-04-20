@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
+const getImage = (path) => `https://image.tmdb.org/t/p/original/${path}`;
 export default function Slider(props) {
     const moviesList = props.infos.map((movie) => (
         <div>
-            <img src={movie.poster} width="800" height="600" />
+            <img src={getImage(movie.backdrop_path)} />
         </div>
     ))
+
+    const mystyle = {
+        paddingRight: "3rem",
+        paddingLeft: "3rem",
+        
+    };
     return (
-
-
-        <Carousel autoPlay={true} interval={6000} emulateTouch={true} infiniteLoop={true} stopOnHover={true} centerMode={true} showStatus={false} showThumbs={false}>
-            {moviesList}
-        </Carousel>
+        <div style={mystyle}>
+            <Carousel autoPlay={true} interval={6000} infiniteLoop={true} stopOnHover={true} centerMode={true} showStatus={false} showThumbs={false}>
+                {moviesList}
+            </Carousel>
+        </div>
     );
 }

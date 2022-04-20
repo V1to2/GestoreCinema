@@ -1,77 +1,124 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import Movie from '../components/FilmCard/Card';
 import '../components/FilmCard/css.sass';
 import Slider from '../components/Sliders.js';
+import axios from 'axios';
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+  Button,
+  Select,
+} from '@chakra-ui/react'
+import { reactToString } from 'rsuite/esm/utils';
+import { pad } from 'lodash';
 
+const BASE_URL = "https://api.themoviedb.org/3";
+const api_key = '629cebc2d8655797238b9c58281509ae';
+const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
 
 const Home = () => {
+  const [data, setData] = useState([]);
+  const [getDati, setDati] = useState([]);
+  const api = axios.create({ baseURL: BASE_URL });
 
-  const infos = [
-    {
-      title: 'Thor',
-      description: 'The powerful, but arrogant god Thor, is cast out of Asgard to live amongst humans in Midgard (Earth), where he soon becomes one of their finest defenders.',
-      duration: '124',
-      year: '2011',
-      director: 'Kenneth Branagh',
-      cast: ['Chris Hemsworth', 'Anthony Hopkins', 'Natalie Portman'],
-      rating: 8.7,
-      imdbLink: 'https://www.imdb.com/title/tt0800369/',
-      poster: 'http://media.comicbook.com/2017/10/thor-movie-poster-marvel-cinematic-universe-1038890.jpg'
-    },
-    {
-      title: 'The Shawshank Redemption',
-      description: 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
-      duration: '142',
-      year: '1994',
-      director: 'Frank Darabont',
-      cast: ['Tim Robbins', 'Morgan Freeman', 'Bob Gunton'],
-      rating: 9.3,
-      imdbLink: 'https://www.imdb.com/title/tt0111161/',
-      poster: "https://ae01.alicdn.com/kf/HTB1xKI9PFXXXXXAXVXXq6xXFXXXG/Dropship-The-Shawshank-Redemption-Nostalgia-classic-movie-kraft-paper-bar-poster-Retro-Poster-decorative-painting.jpg"
-    },
-    {
-      title: 'The Silence of the Lambs',
-      description: 'A young F.B.I. cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer, a madman who skins his victims.',
-      duration: '118',
-      year: '1991',
-      director: 'Jonathan Demme',
-      cast: ['Jodie Foster', 'Anthony Hopkins', 'Lawrence A. Bonney'],
-      rating: 8.6,
-      imdbLink: 'https://www.imdb.com/title/tt0102926/',
-      poster: "https://m.media-amazon.com/images/M/MV5BNjNhZTk0ZmEtNjJhMi00YzFlLWE1MmEtYzM1M2ZmMGMwMTU4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SY1000_CR0,0,677,1000_AL_.jpg"
-    },
-    {
-      title: 'Spirited Away',
-      description: "During her family's move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits, and where humans are changed into beasts.",
-      duration: '125',
-      year: '2001',
-      director: 'Hayao Miyazaki',
-      cast: ['Daveigh Chase', 'Suzanne Pleshette', 'Miyu Irino'],
-      rating: 8.6,
-      imdbLink: 'https://www.imdb.com/title/tt0245429/',
-      poster: "https://m.media-amazon.com/images/M/MV5BOGJjNzZmMmUtMjljNC00ZjU5LWJiODQtZmEzZTU0MjBlNzgxL2ltYWdlXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SY1000_CR0,0,675,1000_AL_.jpg"
-    },
-    {
-      title: 'Starship Troopers',
-      description: "Humans in a fascistic, militaristic future do battle with giant alien bugs in a fight for survival.",
-      duration: '129',
-      year: '1997',
-      director: 'Paul Verhoeven',
-      cast: ['Casper Van Dien', 'Denise Richards', 'Dina Meyer'],
-      rating: 7.2,
-      imdbLink: 'https://www.imdb.com/title/tttt0120201/',
-      poster: "https://m.media-amazon.com/images/M/MV5BNThlOTFhOGEtZjE2NC00MzMzLThkYWItZjlkNWNlMDAzMGZkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SY1000_CR0,0,732,1000_AL_.jpg"
-    },
 
-  ]
+  const getUpcoming = api.get("movie/upcoming", {
+    params: { api_key }
+  });
 
-  const moviesList = infos.map((movie, i) => (
+  useEffect(() => {
+    getUpcoming.then((res) => {
+      console.log(res.data.results);
+      setData(res.data.results);
+      requestDati("cinema");
+    });
+  }, []);
+
+  function requestDati(dato) {
+    //passare a questa funzione le cose da mettere nei filtri, tipo se passi cinema ti ritorna tutti i cinema presenti nel db
+    axios
+      .get(
+        'https://87.250.73.22/html/Popa/Cinema/PHP/getCinema.php'
+      )
+      .then(res => {
+        console.log(res.data);
+        setDati(res.data);
+      });
+  }
+
+
+  const moviesList = data.map((movie, i) => (
     <Movie key={i} infos={movie} />
   ))
+
+  const dati = getDati.map((d) => (
+    <option value={d.nome}>{d.nome}</option>
+  ))
+
+  const divisore = {
+    paddingTop: "3rem",
+    width: "95%",
+    marginLeft: "3rem",
+    display: "flex",
+
+  };
+
+  const prenotazioneRapida = {
+    width: "100%",
+    display: "flex",
+    alignitems: "center",
+    position: "fixed",
+    backgroundColor: "#C05621",
+    bottom: "0",
+    zIndex: "7",
+    borderRadius: "0px 20px 0px 0px",
+    paddingTop: "1.2rem",
+  }
   return (
     <>
-      <Slider infos={infos}/>
+
+
+      <div style={prenotazioneRapida}>
+        <p>psadpasdaspdasd</p>
+      </div>
+      <Slider infos={data} />
+
+      <div style={divisore}>
+        <Select
+          bg='RGBA(0, 0, 0, 0.64)'
+          borderColor='#2C7A7B'
+          color='white'
+          placeholder='Seleziona cinema'
+        >
+          {dati}
+        </Select>
+
+        <Select
+          bg='RGBA(0, 0, 0, 0.64)'
+          borderColor='#2C7A7B'
+          color='white'
+          placeholder='Posti liberi'
+        >
+          {dati}
+        </Select>
+
+        <Select
+          bg='RGBA(0, 0, 0, 0.64)'
+          borderColor='#2C7A7B'
+          color='white'
+          placeholder='-'
+        >
+          {dati}
+        </Select>
+      </div>
 
       <div className='movies__container'>
         {moviesList}

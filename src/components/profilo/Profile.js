@@ -1,36 +1,48 @@
 import { useEffect, useState } from "react";
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 
-function Action(props){
-    const [choosen, setChoosen] = useState("false");
+function Profile() {
+    const [loggato, setLoggato] = useState(getCookie('username') != '');
 
-    return (
-        <div className=""> {props.text} </div>
-    );
-}
+    function getCookie(cname) {
+        let name = cname + '=';
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return '';
+    }
 
-function Actions(props){
-    return (
-        <div>
-            <Action key="voice1" text="acquistati" />
-            <Action key="voice2" text="preferiti" />
-            <Action key="voice3" text="profilo" />
-        </div>
-    );
-}
-
-function Profile(props){
-    const [nome, setNome] = useState(props.nome);
-    const [img_src, setImg_src] = useState(props.avatar);
 
     return (
         <>
-            <div className="">
-                <div className="">
-                    <img src={img_src} alt="profile image" />
-                </div>
-                <p>{nome}</p>
-            </div>
-            <Actions />
+            {loggato ? (
+                <Tabs isFitted variant='enclosed'>
+                    <TabList>
+                        <Tab>Film Preferiti</Tab>
+                        <Tab>Film gia visti</Tab>
+                        <Tab>Prenotazioni</Tab>
+                    </TabList>
+
+                    <TabPanels>
+                        <TabPanel>
+                            <p>one!</p>
+                        </TabPanel>
+                        <TabPanel>
+                            <p>two!</p>
+                        </TabPanel>
+                        <TabPanel>
+                            <p>three!</p>
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
+            ) : (window.location.href='/')}
         </>
     );
 }
