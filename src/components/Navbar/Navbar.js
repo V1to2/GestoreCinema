@@ -73,6 +73,8 @@ import Login from '../Login/login';
 export default function Navbar() {
 
     const [loggato, setLoggato] = useState(false);
+    const [flag, setFlag] = useState(0);
+    const [permessi, setPermessi] = useState([]);
 
     function getCookie(cname) {
         let name = cname + '=';
@@ -92,69 +94,22 @@ export default function Navbar() {
     useEffect(() => {
         if (getCookie('username') != '') {
             setLoggato(true);
+            if (flag == 0 && getCookie('permessi') != '') {
+                setPermessi(getCookie("permessi"))
+                setFlag(1);
+            }
         } else {
             setLoggato(false);
-        }
-    }, []);
-
-    const [loginErrato, setLoginErrato] = useState(false);
-    const [permessi, setPermessi] = useState([]);
-
-    function login() {
-        var passwordInserita = document.getElementById('password').value;
-        var emailInserita = document.getElementById('email').value;
-
-
-        axios
-            .get(
-                'https://87.250.73.22/html/Popa/Cinema/PHP/login.php?email=' + emailInserita + '&password=' + passwordInserita + ''
-            )
-            .then(res => {
-                if (res.data != 0) {
-                    console.log("sd")
-                    document.cookie = 'username=' + emailInserita;
-                    switch (res.data.UserType) {
-                        case "DirettoreMultisala":
-                            setPermessi(3);
-                            break;
-                        case "ResponsabileSala":
-                            setPermessi(2);
-                            break;
-                        case "Cliente":
-                            setPermessi(1);
-                            break;
-                    }
-                } else {
-                    document.getElementById('password').value = "";
-                }
-            });
-    }
-
-    useEffect(() => {
-        if(permessi != 0){
-            console.log("perme: " + permessi)
-            window.location.href = 'profilo';
         }
     }, []);
 
     function logout() {
         // rimuovo il cookie profilo e ricarico la homepage
         document.cookie = 'username' + '=; Max-Age=-99999999;';
+        document.cookie = 'permessi' + '=; Max-Age=-99999999;';
         document.cookie = 'immagineProfilo' + '=; Max-Age=-99999999;';
         window.location.href = '/';
     }
-
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const OverlayTwo = () => (
-        <ModalOverlay
-            bg='none'
-            backdropFilter='auto'
-            backdropInvert='20%'
-            backdropBlur='10px'
-        />
-    )
-
-    const [overlay, setOverlay] = React.useState(<OverlayTwo />)
 
     return (
         <>
@@ -188,12 +143,7 @@ export default function Navbar() {
                                             Pannello Admin
                                         </MenuItem>
                                     </Link>
-                                ) :
-                                    <Link to="adminPanel">
-                                        <MenuItem icon={<BsPerson />} command="⌘T">
-                                            Pa
-                                        </MenuItem>
-                                    </Link>}
+                                ) : null }
                                 <MenuItem
                                     onClick={logout}
                                     icon={<MdExitToApp />}
@@ -204,52 +154,7 @@ export default function Navbar() {
                             </MenuList>
                         </Menu>
                     ) : (
-                        <Flex>
-                            <Link to="registrati">
-                                <Button
-                                    marginRight={'0.8vw'}
-                                    colorScheme="whatsapp"
-                                    leftIcon={<FaTwitter />}
-                                >
-                                    Registrati
-                                </Button>
-                            </Link>
-                            <Button onClick={() => {
-                                setOverlay(<OverlayTwo />)
-                                onOpen()
-                            }} colorScheme="linkedin" leftIcon={<BsPersonFill />}>
-                                Login
-                            </Button>
-
-                            <Modal isOpen={isOpen} onClose={onClose}>
-                                {overlay}
-                                <ModalContent>
-                                    <ModalHeader >
-                                        <Center pt="10" h='12px' color='white'>
-                                            Accedi al tuo account
-                                        </Center>
-                                    </ModalHeader>
-                                    <ModalBody>
-                                        <FormControl isRequired>
-                                            <FormLabel>Email</FormLabel>
-                                            <Input type='email' placeholder='Email@test.com' id='email' />
-                                        </FormControl>
-
-                                        <FormControl isRequired>
-                                            <FormLabel>Password</FormLabel>
-                                            <Input type='password' placeholder='Password' id='password' />
-                                        </FormControl>
-                                    </ModalBody>
-
-                                    <ModalFooter>
-                                        <Button onClick={login} colorScheme='blue' mr={3}>
-                                            LogIn
-                                        </Button>
-                                        <Button onClick={onClose}>Cancel</Button>
-                                    </ModalFooter>
-                                </ModalContent>
-                            </Modal>
-                        </Flex>
+                        <Login />
                     )}
                 </NavMenu>
             </Nav>

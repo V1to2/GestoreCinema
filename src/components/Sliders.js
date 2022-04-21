@@ -14,7 +14,6 @@ export default function Slider(props) {
     const mystyle = {
         paddingRight: "3rem",
         paddingLeft: "3rem",
-        
     };
     return (
         <div style={mystyle}>

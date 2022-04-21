@@ -54,9 +54,13 @@ const Home = () => {
       });
   }
 
-
+  const [datiBottone, setDatiBottone] = useState([]);
+  
+  const infoBottone = (datiB) => {
+    setDatiBottone(datiB);
+  }
   const moviesList = data.map((movie, i) => (
-    <Movie key={i} infos={movie} />
+    <Movie key={i} infos={movie} datiBack={infoBottone}/>
   ))
 
   const dati = getDati.map((d) => (
@@ -121,7 +125,7 @@ const Home = () => {
       </div>
 
       <div className='movies__container'>
-        {moviesList}
+        {moviesList }
       </div>
     </>
   );

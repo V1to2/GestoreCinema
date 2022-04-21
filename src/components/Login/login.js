@@ -1,4 +1,5 @@
-import { React, useState } from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
     chakra,
     Box,
@@ -25,19 +26,75 @@ import {
     ModalCloseButton,
     FormControl,
     FormLabel,
-    Input
+    Input,
+    Center
 } from '@chakra-ui/react';
-
-import axios from 'axios';
+import {
+    AiOutlineMenu,
+    AiFillHome,
+    AiOutlineInbox,
+    AiFillBell,
+    AiOutlineProfile,
+} from 'react-icons/ai';
+import { BsImage } from 'react-icons/bs';
+import {
+    BsFillCameraVideoFill,
+    BsPerson,
+    BsPersonFill,
+    BsPlus,
+} from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+import {
+    MdAddCircle,
+    MdEditLocation,
+    MdExitToApp,
+    MdRepeat,
+    MdSchool,
+    MdWork,
+} from 'react-icons/md';
+import {
+    FaExternalLinkAlt,
+    FaImages,
+    FaSchool,
+    FaTwitter,
+} from 'react-icons/fa';
 import profilo from '../../pages/profilo';
 import "./login.css";
 
 
 const Login = () => {
 
+    function getCookie(cname) {
+        let name = cname + '=';
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return '';
+    }
+
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [loginErrato, setLoginErrato] = useState(false);
+    const [permessi, setPermessi] = useState([]);
+    const [loginC, setLoginC] = useState(false);
     const [datiUtente, setDatiUtente] = useState(false);
+    const [flag, setFlag] = useState(0);
+
+    const OverlayTwo = () => (
+        <ModalOverlay
+            bg='none'
+            backdropFilter='auto'
+            backdropInvert='20%'
+            backdropBlur='10px'
+        />
+    )
+
+    const [overlay, setOverlay] = React.useState(<OverlayTwo />)
 
     function login() {
         var passwordInserita = document.getElementById('password').value;
@@ -50,41 +107,88 @@ const Login = () => {
             )
             .then(res => {
                 if (res.data != 0) {
-                    setLoginErrato(false);
-                    setDatiUtente(emailInserita);
+                    setLoginC(true);
+                    console.log("sd")
                     document.cookie = 'username=' + emailInserita;
-                    window.location.href = 'profilo';
+                    switch (res.data.UserType) {
+                        case "DirettoreMultisala":
+                            setPermessi(3);
+                            document.cookie = 'permessi=3';
+                            break;
+                        case "ResponsabileSala":
+                            document.cookie = 'permessi=2';
+                            setPermessi(2);
+                            break;
+                        case "Cliente":
+                            setPermessi(1);
+                            document.cookie = 'permessi=1';
+                            break;
+                    }
+
+                    window.location.href = "profilo";
                 } else {
                     document.getElementById('password').value = "";
                 }
             });
     }
+
+
+    useEffect(() => {
+        console.log(getCookie("permessi"))
+        if (flag == 0) {
+            setPermessi(getCookie("permessi"))
+            setFlag(1);
+        }
+    }, [])
+
+
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-                <ModalHeader>Create your account</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody pb={6}>
-                    <FormControl>
-                        <FormLabel>Email</FormLabel>
-                        <Input placeholder='Email@test.com' />
-                    </FormControl>
+        <Flex>
+            <Link to="registrati">
+                <Button
+                    marginRight={'0.8vw'}
+                    colorScheme="whatsapp"
+                    leftIcon={<FaTwitter />}
+                >
+                    Registrati
+                </Button>
+            </Link>
+            <Button onClick={() => {
+                setOverlay(<OverlayTwo />)
+                onOpen()
+            }} colorScheme="linkedin" leftIcon={<BsPersonFill />}>
+                Login
+            </Button>
 
-                    <FormControl mt={4}>
-                        <FormLabel>Password</FormLabel>
-                        <Input placeholder='Password' />
-                    </FormControl>
-                </ModalBody>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                {overlay}
+                <ModalContent>
+                    <ModalHeader >
+                        <Center pt="10" h='12px' color='white'>
+                            Accedi al tuo account
+                        </Center>
+                    </ModalHeader>
+                    <ModalBody>
+                        <FormControl isRequired>
+                            <FormLabel>Email</FormLabel>
+                            <Input type='email' placeholder='Email@test.com' id='email' />
+                        </FormControl>
 
-                <ModalFooter>
-                    <Button colorScheme='blue' mr={3}>
-                        LogIn
-                    </Button>
-                    <Button onClick={onClose}>Cancel</Button>
-                </ModalFooter>
-            </ModalContent>
-        </Modal>
+                        <FormControl isRequired>
+                            <FormLabel>Password</FormLabel>
+                            <Input type='password' placeholder='Password' id='password' />
+                        </FormControl>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button onClick={login} colorScheme='blue' mr={3}>
+                            LogIn
+                        </Button>
+                        <Button onClick={onClose}>Cancel</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </Flex>
     );
 };
 export default Login;

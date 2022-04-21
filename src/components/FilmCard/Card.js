@@ -1,3 +1,5 @@
+import { Button } from "@chakra-ui/react";
+
 const Rating = ({ rating }) => {
     let stars = [];
     for (let i = 1; i < 11; i++) {
@@ -31,7 +33,9 @@ const MovieInfo = ({ name, value }) => (
 )
 
 const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
-const Movie = ({ infos }) => {
+
+export default function Movie({ infos,datiBack }){
+    const data = infos;
     return (
         <div className='movie' style={{ backgroundImage: `url(${getImage(infos.poster_path)})` }}>
             <h3 font-weight="bold" className='movie__title'>{infos.title}</h3>
@@ -39,8 +43,8 @@ const Movie = ({ infos }) => {
 
             <div className='movie__infos'>
                 <MovieInfo name='year' value={infos.release_date} />
+                <button onClick={() => datiBack(data)} className="movie__imdb-button">Prenota</button>
             </div>
         </div>
     )
 }
-export default Movie;

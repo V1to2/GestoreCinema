@@ -16,6 +16,7 @@ import Home from './pages';
 import About from './pages/about.js';
 import Login from './pages/Login.js';
 import Profilo from './pages/profilo.js';
+import AddFilm from './pages/addFilm.js';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="about" element={<About />} />
       <Route path="profilo" element={<Profilo />} />
+      <Route path="addFilm" element={<AddFilm />} />
     </Routes>
     </ChakraProvider>
   );
