@@ -98,7 +98,7 @@ export default function Navbar() {
     }, []);
 
     const [loginErrato, setLoginErrato] = useState(false);
-    const [datiUtente, setDatiUtente] = useState(false);
+    const [permessi, setPermessi] = useState([]);
 
     function login() {
         var passwordInserita = document.getElementById('password').value;
@@ -111,15 +111,31 @@ export default function Navbar() {
             )
             .then(res => {
                 if (res.data != 0) {
-                    setLoginErrato(false);
-                    setDatiUtente(emailInserita);
+                    console.log("sd")
                     document.cookie = 'username=' + emailInserita;
-                    window.location.href = 'profilo';
+                    switch (res.data.UserType) {
+                        case "DirettoreMultisala":
+                            setPermessi(3);
+                            break;
+                        case "ResponsabileSala":
+                            setPermessi(2);
+                            break;
+                        case "Cliente":
+                            setPermessi(1);
+                            break;
+                    }
                 } else {
                     document.getElementById('password').value = "";
                 }
             });
     }
+
+    useEffect(() => {
+        if(permessi != 0){
+            console.log("perme: " + permessi)
+            window.location.href = 'profilo';
+        }
+    }, []);
 
     function logout() {
         // rimuovo il cookie profilo e ricarico la homepage
@@ -166,6 +182,18 @@ export default function Navbar() {
                                         Profilo
                                     </MenuItem>
                                 </Link>
+                                {permessi == 3 ? (
+                                    <Link to="adminPanel">
+                                        <MenuItem icon={<BsPerson />} command="⌘T">
+                                            Pannello Admin
+                                        </MenuItem>
+                                    </Link>
+                                ) :
+                                    <Link to="adminPanel">
+                                        <MenuItem icon={<BsPerson />} command="⌘T">
+                                            Pa
+                                        </MenuItem>
+                                    </Link>}
                                 <MenuItem
                                     onClick={logout}
                                     icon={<MdExitToApp />}
