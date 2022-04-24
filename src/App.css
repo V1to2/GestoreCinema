@@ -1,0 +1,7 @@
+body.chakra-ui-light{                   /* specificare il body non era essenziale, è semplicemente per chiarezza*/
+    background-color: hsl(240, 50%, 2%);
+}
+
+.movie{
+    color: white;
+}

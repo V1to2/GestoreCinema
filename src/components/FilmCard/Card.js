@@ -32,12 +32,12 @@ const MovieInfo = ({ name, value }) => (
     </div>
 )
 
-const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
+//const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
-export default function Movie({ infos,datiBack }){
+export default function Movie({ infos,datiBack,backgroundPath }){
     const data = infos;
     return (
-        <div className='movie' style={{ backgroundImage: `url(${getImage(infos.poster_path)})` }}>
+        <div className='movie' style={{ backgroundImage: `url(${backgroundPath})` }}>
             <h3 font-weight="bold" className='movie__title'>{infos.title}</h3>
             <span className='movie__description'>{infos.overview}</span>
 
