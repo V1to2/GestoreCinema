@@ -62,7 +62,7 @@ import profilo from '../../pages/profilo';
 import "./login.css";
 
 
-const Login = () => {
+export default function Login ({open, redirect}){
 
     function getCookie(cname) {
         let name = cname + '=';
@@ -125,7 +125,7 @@ const Login = () => {
                             break;
                     }
 
-                    window.location.href = "profilo";
+                    window.location.href = redirect;
                 } else {
                     document.getElementById('password').value = "";
                 }
@@ -134,6 +134,8 @@ const Login = () => {
 
 
     useEffect(() => {
+        console.log("Open: " + open)
+        if(open == true) onOpen()
         console.log(getCookie("permessi"))
         if (flag == 0) {
             setPermessi(getCookie("permessi"))
@@ -190,5 +192,4 @@ const Login = () => {
             </Modal>
         </Flex>
     );
-};
-export default Login;
+}

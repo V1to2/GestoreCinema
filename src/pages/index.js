@@ -60,7 +60,7 @@ const Home = () => {
     setDatiBottone(datiB);
   }
   const moviesList = data.map((movie, i) => (
-    <Movie key={i} infos={movie} backgroundPath={"https://image.tmdb.org/t/p/w300/" + movie.poster_path} datiBack={infoBottone}/>
+    <Movie key={i} infos={movie} buttonType={"Prenota"} datiBack={infoBottone}/>
   ))
 
   const dati = getDati.map((d) => (

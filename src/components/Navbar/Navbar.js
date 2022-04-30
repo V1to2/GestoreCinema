@@ -138,9 +138,9 @@ export default function Navbar() {
                                     </MenuItem>
                                 </Link>
                                 {permessi == 3 ? (
-                                    <Link to="adminPanel">
+                                    <Link to="addFilm">
                                         <MenuItem icon={<BsPerson />} command="⌘T">
-                                            Pannello Admin
+                                            Aggiungi film
                                         </MenuItem>
                                     </Link>
                                 ) : null }

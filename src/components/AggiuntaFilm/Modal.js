@@ -30,7 +30,8 @@ import {
     Center,
     Select,
     Checkbox,
-    Spacer
+    Spacer,
+    useToast 
 } from '@chakra-ui/react';
 import {
     AiOutlineMenu,
@@ -112,6 +113,7 @@ export default function ModalDatiCinema({ cinemaSale }) {
 
     function getSale() {
         console.log(document.getElementById('selCinema').value)
+        if(document.getElementById('selCinema').value != ""){
         //passare a questa funzione le cose da mettere nei filtri, tipo se passi cinema ti ritorna tutti i cinema presenti nel db
         axios
             .get(
@@ -121,6 +123,9 @@ export default function ModalDatiCinema({ cinemaSale }) {
                 console.log(res.data);
                 setSale(res.data);
             });
+        }else{
+            setSale([]);
+        }
     }
 
     useEffect(() => {
@@ -128,21 +133,38 @@ export default function ModalDatiCinema({ cinemaSale }) {
         onOpen()
     }, [])
 
+    const toast = useToast()
     function updateDatiFin() {
-
-        var array = []
         var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
-
+        var array = []
         for (var i = 0; i < checkboxes.length; i++) {
             array.push(checkboxes[i].value)
         }
+        if(document.getElementById('selCinema').value != "" && array.length != 0){
 
-        datiFinali = {
-            cinema: document.getElementById('selCinema').value,
-            checkboxes: array
+            datiFinali = {
+                cinema: document.getElementById('selCinema').value,
+                checkboxes: array
+            }
+            onClose()
+            return datiFinali;
+        }else{
+            if(document.getElementById('selCinema').value == ""){
+            toast({
+                title: `Devi selezionare il cinema!`,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+              })
+            }else{
+                toast({
+                    title: `Devi selezionare almeno una sala!`,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                  })
+            }
         }
-        onClose()
-        return datiFinali;
     }
 
     const CheckBoxes = sale.map((d, i) => (
@@ -171,7 +193,10 @@ export default function ModalDatiCinema({ cinemaSale }) {
                             color='white'
                             onChange={getSale}
                             id="selCinema"
+                            required="required"
                         >
+                            
+                            <option value="">None</option>
                             {datiSel}
                         </Select>
                     </ModalBody>
