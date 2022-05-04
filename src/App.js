@@ -17,6 +17,7 @@ import About from './pages/about.js';
 import Login from './pages/Login.js';
 import Profilo from './pages/profilo.js';
 import AddFilm from './pages/addFilm.js';
+import CinemaProiezione from './components/FilmCard/DetailsPopup'
 
 function App() {
   return (
@@ -27,6 +28,11 @@ function App() {
       <Route path="about" element={<About />} />
       <Route path="profilo" element={<Profilo />} />
       <Route path="addFilm" element={<AddFilm />} />
+
+
+      <Route path="testing" element={<CinemaProiezione title="Titolo di prova" trama="trama film di prova" imgPath="https://image.tmdb.org/t/p/w300//wRnbWt44nKjsFPrqSmwYki5vZtF.jpg" />} />
+
+
     </Routes>
     </ChakraProvider>
   );
