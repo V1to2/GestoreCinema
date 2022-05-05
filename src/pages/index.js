@@ -18,6 +18,8 @@ import {
 } from '@chakra-ui/react'
 import { reactToString } from 'rsuite/esm/utils';
 import { pad } from 'lodash';
+import { Route } from 'react-router-dom';
+import CinemaProiezione from '../components/FilmCard/DetailsPopup'
 
 const BASE_URL = "https://api.themoviedb.org/3";
 const api_key = '629cebc2d8655797238b9c58281509ae';
@@ -88,6 +90,7 @@ const Home = () => {
   }
   return (
     <>
+
 
 
       <div style={prenotazioneRapida}>
