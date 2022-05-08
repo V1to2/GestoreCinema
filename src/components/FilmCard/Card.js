@@ -1,4 +1,16 @@
 import { Button } from "@chakra-ui/react";
+import Prenotazione from './DetailsPopup'
+import {
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+} from '@chakra-ui/react';
+import React from "react";
 
 const Rating = ({ rating }) => {
     let stars = [];
@@ -34,8 +46,11 @@ const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
 export default function Movie({ infos,buttonType,datiBack }){
     const data = infos;
+    const {isOpen, onOpen, onClose} = useDisclosure();
+    const finalRef = React.useRef();    //per bloccare lo scorrimento nel momento in cui appare il modal
+
     return (
-        <div className='movie' style={{ backgroundImage: `url(${getImage(infos.poster_path)})` }}>
+        <div className='movie' onClick={onOpen} style={{ backgroundImage: `url(${getImage(infos.poster_path)})` }}>
             <h3 font-weight="bold" className='movie__title'>{infos.title}</h3>
             <span className='movie__description'>{infos.overview}</span>
 
@@ -43,6 +58,14 @@ export default function Movie({ infos,buttonType,datiBack }){
                 <MovieInfo name='year' value={infos.release_date} />
                 <button onClick={() => datiBack(data)} className="movie__imdb-button">{buttonType}</button>
             </div>
+
+            <Modal scrollBehavior={"inside"} finalFocusRef={finalRef} size='xl' onClose={onClose} isOpen={isOpen}>
+                <ModalContent>
+                    <ModalBody>
+                        <Prenotazione key={"modalFor-" + infos.title } title={ infos.title } imgPath={getImage(infos.poster_path)} trama={infos.overview} uscita={infos.release_date} close={onClose} />
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </div>
     )
 }

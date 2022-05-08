@@ -2,23 +2,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function Sala(props){
+function Lista(props){
     return (
         <div>
-            <Link to="">{ props.nome }</Link>
-        </div>
-    );
-}
-
-function SaleCinema(props){
-    return (
-        <div>
-            <div>
-                { props.nomeCinema }
-            </div>
-            <div>
-                { props.listaSale.map((sal, i)=>{<Sala key={"cinema-" + props.nomeCinema + "-sala-" + sal + i} nome={sal} />}) }
-            </div>
         </div>
     );
 }
@@ -36,11 +22,9 @@ function DetailsPopup(props){
         )
     },[]);
 
-    function close(){};
-
     return(
         <div className="PopupFilm-root">
-            <div onClick={close()}>
+            <div onClick={props.close}>
                 <img src="https://www.ilsicomoro.it/js/skins/default/lightbox-close.png" alt="close" />
             </div>
             <div>
@@ -56,7 +40,7 @@ function DetailsPopup(props){
                 </pre>
             </div>
             <div className="PopupFilm-Proiezioni">
-                {/**/ listaSaleProiezioni == null ? <div className="alert Warning">There are no Projections of this Film in any Cinema</div> : listaSaleProiezioni.map((cine, i)=>{<SaleCinema key={"cinema-" + cine + i} nomeCinema={cine} listaSale={cine} />}) }
+                { listaSaleProiezioni == null ? <div className="alert Warning"> you can't find this film in any Cinema</div> : listaSaleProiezioni.map((cine, i)=>{<Lista key={"cinema-" + cine + i} nomeCinema={cine} listaSale={cine} />}) }
             </div>
         </div>
     );

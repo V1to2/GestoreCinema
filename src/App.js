@@ -30,8 +30,8 @@ function App() {
       <Route path="addFilm" element={<AddFilm />} />
 
 
-      <Route path="testing" element={<CinemaProiezione title="Titolo di prova" trama="trama film di prova" imgPath="https://image.tmdb.org/t/p/w300//wRnbWt44nKjsFPrqSmwYki5vZtF.jpg" />} />
-
+      {//<Route path="testing" element={<CinemaProiezione title="Titolo di prova" trama="trama film di prova" imgPath="https://image.tmdb.org/t/p/w300//wRnbWt44nKjsFPrqSmwYki5vZtF.jpg" />} />
+}
 
     </Routes>
     </ChakraProvider>
