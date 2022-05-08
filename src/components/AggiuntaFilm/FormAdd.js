@@ -18,7 +18,7 @@ import { pad } from 'lodash';
 import Modal from './Modal.js';
 
 
-const Home = () => {
+export default function Home(){
     const [data, setData] = useState([]);
     const [getDati, setDati] = useState([]);
 
@@ -62,37 +62,9 @@ const Home = () => {
     return (
         <>
             <Modal cinemaSale={cinemaSale} />
-            <div style={divisore}>
-                <Select
-                    bg='RGBA(0, 0, 0, 0.64)'
-                    borderColor='#2C7A7B'
-                    color='white'
-                    placeholder='Seleziona cinema'
-                >
-                    {dati}
-                </Select>
-
-                <Select
-                    bg='RGBA(0, 0, 0, 0.64)'
-                    borderColor='#2C7A7B'
-                    color='white'
-                    placeholder='Posti liberi'
-                >
-                    {dati}
-                </Select>
-
-                <Select
-                    bg='RGBA(0, 0, 0, 0.64)'
-                    borderColor='#2C7A7B'
-                    color='white'
-                    placeholder='-'
-                >
-                    {dati}
-                </Select>
-            </div>
+            
         </>
     );
 };
 
-export default Home;
 

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Movie from '../components/FilmCard/Card';
 import '../components/FilmCard/css.sass';
 import axios from 'axios';
-import Form from "../components/AggiuntaFilm/FormAdd.js"
+import Form from "../components/AggiuntaFilm/Modal.js"
 import ModalConferma from "../components/AggiuntaFilm/ModalAddSale.js"
 import ModalAddFilm from "../components/AggiuntaFilm/ModalAddFilm.js"
 import Login from "../components/Login/login.js"
@@ -20,6 +20,7 @@ const About = () => {
     const [loggato, setLoggato] = useState([]);
     const [openModalC, setOpenModalC] = useState(false);
     const [OpenModalAddFilm, setOpenModalAddFilm] = useState(false);
+    const [saleSelezionate, setSaleSelezionate] = useState([]);
 
     function getCookie(cname) {
         let name = cname + '=';
@@ -86,14 +87,17 @@ const About = () => {
         setOpenModalAddFilm(false);
     }
 
+    const cinemaSale = (data) => {
+        setSaleSelezionate(data);
+    }
     const moviesList = data.map((movie, i) => (
         <Movie key={i} buttonType={"Aggiungi"} infos={movie} backgroundPath={"https://image.tmdb.org/t/p/w300/" + movie.poster_path} datiBack={infoBottone} />
     ))
 
     return (
         <>
-            {loggato ? (<Form />) : <Login open={true} redirect={"addFilm"} />}
-            {openModalC ? (<ModalConferma datiSale={datiBottone} open={true} closeBack={closeMod} />) : (null)}
+            {loggato ? (<Form cinemaSale={cinemaSale}/>) : <Login open={true} redirect={"addFilm"} />}
+            {openModalC ? (<ModalConferma saleSel={saleSelezionate} datiSale={datiBottone} open={true} closeBack={closeMod} />) : (null)}
             {OpenModalAddFilm ? (<ModalAddFilm data={datiBottone} open={true} aggiunto={aggiunto} closeBack={closeMod2}/>) : (null)}
 
             <div className='movies__container'>
