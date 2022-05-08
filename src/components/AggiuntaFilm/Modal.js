@@ -134,6 +134,11 @@ export default function ModalDatiCinema({ cinemaSale }) {
     }, [])
 
     const toast = useToast()
+
+    function chiusura(){
+        onClose();
+        window.location.href="/";
+    }
     function updateDatiFin() {
         var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
         var array = []
@@ -178,7 +183,7 @@ export default function ModalDatiCinema({ cinemaSale }) {
 
     return (
         <Flex>
-            <Modal isOpen={isOpen} onClose={onClose}>
+            <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
                 {overlay}
                 <ModalContent>
                     <ModalHeader >
@@ -216,7 +221,7 @@ export default function ModalDatiCinema({ cinemaSale }) {
                         <Button onClick={() => cinemaSale(updateDatiFin())} colorScheme='blue' mr={3}>
                             Conferma
                         </Button>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={chiusura}>Torna indietro</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
