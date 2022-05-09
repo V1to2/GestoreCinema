@@ -44,13 +44,13 @@ const MovieInfo = ({ name, value }) => (
 
 const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
-export default function Movie({ infos,buttonType,datiBack }){
+export default function Movie({ infos, buttonType, datiBack }) {
     const data = infos;
-    const {isOpen, onOpen, onClose} = useDisclosure();
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const finalRef = React.useRef();    //per bloccare lo scorrimento nel momento in cui appare il modal
 
     return (
-        <div className='movie' onClick={onOpen} style={{ backgroundImage: `url(${getImage(infos.poster_path)})` }}>
+        <div className='movie' onClick={onOpen} style={{ zindex: "111", backgroundImage: `url(${getImage(infos.poster_path)})` }}>
             <h3 font-weight="bold" className='movie__title'>{infos.title}</h3>
             <span className='movie__description'>{infos.overview}</span>
 
@@ -59,10 +59,11 @@ export default function Movie({ infos,buttonType,datiBack }){
                 <button onClick={() => datiBack(data)} className="movie__imdb-button">{buttonType}</button>
             </div>
 
-            <Modal scrollBehavior={"inside"} finalFocusRef={finalRef} size='xl' onClose={onClose} isOpen={isOpen}>
+
+            <Modal isCentered scrollBehavior={"inside"} finalFocusRef={finalRef} size='xxl' onClose={onClose} isOpen={isOpen}>
                 <ModalContent>
-                    <ModalBody>
-                        <Prenotazione key={"modalFor-" + infos.title } title={ infos.title } imgPath={getImage(infos.poster_path)} trama={infos.overview} uscita={infos.release_date} close={onClose} />
+                    <ModalBody style={{ padding: "1rem" }}>
+                        <Prenotazione key={"modalFor-" + infos.title} title={infos.title} imgPath={getImage(infos.poster_path)} trama={infos.overview} uscita={infos.release_date} close={onClose} />
                     </ModalBody>
                 </ModalContent>
             </Modal>
