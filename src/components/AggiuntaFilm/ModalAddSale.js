@@ -42,6 +42,7 @@ export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack })
     const api = axios.create({ baseURL: BASE_URL });
 
     const [film, setFilm] = useState([])
+    const [ore, setOre] = useState([]);
     const getFilm = api.get("movie/" + datiSale.id, {
         params: { api_key }
     });
@@ -54,34 +55,40 @@ export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack })
             backdropBlur='10px'
         />
     )
-
+    function time_convert(num) {
+        var hours = Math.floor(num / 60);
+        var minutes = num % 60;
+        return hours + "." + minutes.toFixed(0);
+    }
     function createHours(hours) {
-
-        getFilm.then((res) => {
-            setFilm(res.data);
-        });
-
+        console.log(film.title + "-" + film.runtime)
         if (hours != "") {
 
         } else {
             var today = new Date();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-            console.log(time + 2);
 
             let counter = 0;
             var ore = new Array();
-            var ora = { inizio: 17.00, fine: Number((17 + (film.runtime / 60)).toFixed(1)) };
+            var ora = { inizio: 17.00, fine: Number(time_convert(1020 + film.runtime)) };
             ore.push(ora);
-            console.log(ore);
-            while (ore[counter].fine <= 24) {
-                let fineTemp = Number((ore[counter].fine + (film.runtime / 60)).toFixed(1));
+
+
+            while (ore[counter].fine.toFixed(0) <= 23 || ore[counter].fine.toFixed(0) == 0 || ore[counter].fine.toFixed(0) == 1) {
+                let o = time_convert((ore[counter].fine * 60) + film.runtime);
+                let fineTemp = Number(o);
                 ore.push({ inizio: ore[counter].fine, fine: fineTemp });
                 counter++;
             }
+            setOre(ore);
             console.log(ore);
         }
     }
+
+    const datiSel = ore.map((d) => (
+        <option value={d.inizio}>{d.inizio} - {d.fine}</option>
+    ))
 
     function getOreFromDb() {
         var data = document.getElementById("selData").value;
@@ -102,8 +109,9 @@ export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack })
         onClose()
     }
     useEffect(() => {
-        console.log(saleSel);
-        console.log(datiSale);
+        getFilm.then((res) => {
+            setFilm(res.data);
+        });
 
         if (open == true) onOpen()
     }, [])
@@ -151,7 +159,7 @@ export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack })
                             color='white'
                             id="selOra"
                         >
-                            { }
+                            {datiSel}
                         </Select>
                     </ModalBody>
 

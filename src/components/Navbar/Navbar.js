@@ -8,6 +8,7 @@ import {
     NavBtnLink,
 } from "./NavbarElements";
 
+import { ColorModeSwitcher } from '../../ColorModeSwitcher';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -126,6 +127,15 @@ export default function Navbar() {
                     </NavLink>
                 </Bars>
                 <NavMenu>
+                    <ColorModeSwitcher justifySelf="flex-end" />
+
+                    <chakra.a
+                        pr={2}
+                        color={useColorModeValue('gray.800', 'inherit')}
+                        rounded="sm"
+                        _hover={{ color: useColorModeValue('black.800', 'gray.600') }}
+                    ></chakra.a>
+
                     {loggato ? (
                         <Menu>
                             <MenuButton>
@@ -143,7 +153,7 @@ export default function Navbar() {
                                             Aggiungi film
                                         </MenuItem>
                                     </Link>
-                                ) : null }
+                                ) : null}
                                 <MenuItem
                                     onClick={logout}
                                     icon={<MdExitToApp />}

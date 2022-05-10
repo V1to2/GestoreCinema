@@ -19,14 +19,13 @@ function DetailsPopup(props){
         )
         .then((result) => {
             console.log(result.data)
-            
+            setListaSaleProiezioni(result.data);
         })
-    },[]);
+    }, [props.title]);
 
     const stile = {
-        backgroundColor: "white",
         display: "flex",
-        justifyContent: "space-between"
+        flexWrap: "wrap"
     }
 
     const stilebottone = {
@@ -38,13 +37,12 @@ function DetailsPopup(props){
     }
 
     const stileimmagine = {
-        height: "100%",
-        width: 'auto',
-        paddingRight: '6%',
+        height: "40rem",
     }
 
     const stileTesto = {
-        width: "30rem"
+        margin: "3rem",
+        width: "50rem"
     }
 
     return(
@@ -56,11 +54,11 @@ function DetailsPopup(props){
                 <img className="PopupFilm-image" style={stileimmagine} src={props.imgPath} alt={props.originalTitle}/>
             </div>
             <div className="PopupFilm-info" style={stileTesto}>
-                <h1> {props.title} </h1>
-                <p>
+                <h1 style={ { fontSize: "2.5rem", fontWeight: "bold", marginBottom: "1.5rem" } }> {props.title} </h1>
+                <p style={ {margin: "1rem"} }>
                     {props.trama}
                 </p>
-                <pre>
+                <pre style={ {margin: "1rem"} }>
                     Data Di Uscita:      {props.uscita}
                 </pre>
                 <div className="PopupFilm-Proiezioni">

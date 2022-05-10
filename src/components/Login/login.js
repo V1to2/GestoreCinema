@@ -162,7 +162,7 @@ export default function Login ({open, redirect}){
                 Login
             </Button>
 
-            <Modal isOpen={isOpen} onClose={onClose}>
+            <Modal colorScheme='blue' isOpen={isOpen} onClose={onClose}>
                 {overlay}
                 <ModalContent>
                     <ModalHeader >
