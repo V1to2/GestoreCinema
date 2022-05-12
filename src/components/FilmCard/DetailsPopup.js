@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 function Lista(props){
     return (
         <div>
+            <div>props.sala</div>
         </div>
     );
 }
@@ -62,7 +63,7 @@ function DetailsPopup(props){
                     Data Di Uscita:      {props.uscita}
                 </pre>
                 <div className="PopupFilm-Proiezioni">
-                    { listaSaleProiezioni == null ? <div className="alert Warning"> We can't find this Film in any Cinema</div> : listaSaleProiezioni.map((cine, i)=>{<Lista key={"cinema-" + cine + i} nomeCinema={cine} listaSale={cine} />}) }
+                    { (!(listaSaleProiezioni != null && listaSaleProiezioni.length > 0)) ? <div className="alert Warning"> We can't find this Film in any Cinema</div> : listaSaleProiezioni.map((cine, i)=>{<Lista key={"cinema-" + cine + i} nomeCinema={cine} sala={cine.sala_id} />}) }
                 </div>
             </div>
         </div>
