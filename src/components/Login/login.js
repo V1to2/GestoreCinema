@@ -146,7 +146,7 @@ export default function Login ({open, redirect}){
 
     return (
         <Flex>
-            <Link to="registrati">
+            <Link to="registrazione">
                 <Button
                     marginRight={'0.8vw'}
                     colorScheme="whatsapp"
