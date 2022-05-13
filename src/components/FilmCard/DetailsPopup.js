@@ -26,7 +26,9 @@ function DetailsPopup(props){
 
     const stile = {
         display: "flex",
-        flexWrap: "wrap"
+        flexWrap: "nowrap",
+        flexDirection: "row",
+        borderRadius: "35px"
     }
 
     const stilebottone = {
@@ -39,11 +41,16 @@ function DetailsPopup(props){
 
     const stileimmagine = {
         height: "40rem",
+        width: "40rem",
+        borderRadius: "5px"
     }
 
     const stileTesto = {
-        margin: "3rem",
-        width: "50rem"
+        margin: "1rem",
+        width: "50rem",
+        backgroundColor: "#414f67",
+        padding: "1rem",
+        borderRadius: "15px"
     }
 
     return(

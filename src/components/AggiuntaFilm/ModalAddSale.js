@@ -30,7 +30,8 @@ import {
     Center,
     Select,
     Checkbox,
-    Spacer
+    Spacer,
+    useToast
 } from '@chakra-ui/react';
 
 export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack }) {
@@ -71,14 +72,14 @@ export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack })
 
             let counter = 0;
             var ore = new Array();
-            var ora = { inizio: 17.00, fine: Number(time_convert(1020 + film.runtime)) };
+            var ora = { id: counter, inizio: 17.00, fine: Number(time_convert(1020 + film.runtime)) };
             ore.push(ora);
 
 
             while (ore[counter].fine.toFixed(0) <= 23 || ore[counter].fine.toFixed(0) == 0 || ore[counter].fine.toFixed(0) == 1) {
                 let o = time_convert((ore[counter].fine * 60) + film.runtime);
                 let fineTemp = Number(o);
-                ore.push({ inizio: ore[counter].fine, fine: fineTemp });
+                ore.push({ id:counter, inizio: ore[counter].fine, fine: fineTemp });
                 counter++;
             }
             setOre(ore);
@@ -87,7 +88,7 @@ export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack })
     }
 
     const datiSel = ore.map((d) => (
-        <option value={d.inizio}>{d.inizio} - {d.fine}</option>
+        <option value={d.id}>{d.inizio} - {d.fine}</option>
     ))
 
     function getOreFromDb() {
@@ -108,6 +109,20 @@ export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack })
         closeBack(false)
         onClose()
     }
+
+    const toast = useToast()
+    function sendOre(){
+        var id = document.getElementById("selOra").value;
+        if(id != 0){
+            toast({
+                title: `Non puoi selezionare quest'ora!`,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+              })
+        }
+    }
+
     useEffect(() => {
         getFilm.then((res) => {
             setFilm(res.data);
@@ -158,6 +173,7 @@ export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack })
                             borderColor='#2C7A7B'
                             color='white'
                             id="selOra"
+                            onChange={sendOre}
                         >
                             {datiSel}
                         </Select>

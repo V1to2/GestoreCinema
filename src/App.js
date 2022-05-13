@@ -18,6 +18,7 @@ import Login from './pages/Login.js';
 import Profilo from './pages/profilo.js';
 import AddFilm from './pages/addFilm.js';
 import CinemaProiezione from './components/FilmCard/DetailsPopup'
+import Register from './pages/registrazione.js';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="about" element={<About />} />
         <Route path="profilo" element={<Profilo />} />
         <Route path="addFilm" element={<AddFilm />} />
+        <Route path="registrazione" element={<Register />} />
 
       </Routes>
     </ChakraProvider>
