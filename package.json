@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/preset-env": "^7.16.11",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
     "@chakra-ui/provider": "^1.7.12",
     "@chakra-ui/react": "^1.8.6",
     "@chakra-ui/theme": "^1.14.0",
