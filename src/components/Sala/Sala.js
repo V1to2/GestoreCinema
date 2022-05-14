@@ -7,52 +7,54 @@ return(
     <div>
 <Grid
 marginTop='5%'
-marginLeft='50%'
   h='120px'
-  w='100%'
+  w='30%'
+  marginLeft='17%'
+  transform='rotateX(-45deg)'
+  boxShadow= '1px 3px 10px white'
   bg='grey'
 ></Grid>
-<SimpleGrid columns={5} marginTop='10%' marginLeft='25%'>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
+<SimpleGrid columns={24} marginTop='10%' marginLeft='25%'>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
 </SimpleGrid>
-<SimpleGrid columns={5} marginLeft='25%'>
-<Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
+<SimpleGrid columns={24} marginLeft='25%'>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
 </SimpleGrid>
-<SimpleGrid columns={5} marginLeft='25%'>
-<Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
+<SimpleGrid columns={24} marginLeft='25%'>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
 </SimpleGrid>
-<SimpleGrid columns={5} marginLeft='25%'>
-<Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
+<SimpleGrid columns={24} marginLeft='25%'>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
 </SimpleGrid>
-<SimpleGrid columns={5} marginLeft='25%'>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box> 
+<SimpleGrid columns={24} marginLeft='25%'>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
 </SimpleGrid>
-<SimpleGrid columns={5} marginLeft='25%'>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
-  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px'></Box>
+<SimpleGrid columns={24} marginLeft='25%'>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
+  <Box bg='tomato' width='25px' height='22px' margin='3px' borderTopLeftRadius='10px' borderTopRightRadius='10px' className='seat'></Box>
 </SimpleGrid>
     </div>
 )}

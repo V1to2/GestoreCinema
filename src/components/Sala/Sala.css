@@ -1,0 +1,7 @@
+.seat:hover{
+    background-color: #DC381F;
+}
+
+.seat:checked{
+    background-color: #DC381F;
+}
