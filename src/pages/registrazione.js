@@ -49,7 +49,7 @@ function TheInput(props) {
           alert(JSON.stringify(values, null, 2))
           actions.setSubmitting(false)
         }, 1000)
-      }}
+      }} >
       {(props) => (
         <Form>
           <Field name='mail' validate={validateMail}>
