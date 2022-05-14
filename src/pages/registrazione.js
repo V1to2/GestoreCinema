@@ -1,95 +1,73 @@
-import React, { useEffect, useState } from 'react';
-import {
-  chakra,
-  Box,
-  Flex,
-  useColorModeValue,
-  SimpleGrid,
-  GridItem,
-  Heading,
-  Text,
-  Stack,
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  FormHelperText,
-  FormErrorMessage,
-  List,
-  Textarea,
-  Avatar,
-  Icon,
-  Button,
-  VisuallyHidden,
-  Select,
-  Checkbox,
-  RadioGroup,
-  Radio,
-  ListItem,
-} from '@chakra-ui/react';
-import { FaUser } from 'react-icons/fa';
-import { motion } from 'framer-motion';
-import axios from 'axios';
-
-function Error(props){
-  return(
-    <div>
-      Valore non consentito
-      <div>
-        {props.errors.map((text)=>{<li key={"input-error-" + text}>text</li>})}
-      </div>
-    </div>
-  )
-}
+import React, { useEffect, useState } from 'react'
+import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Input, Button } from '@chakra-ui/react'
+import { Formik, Field, Form } from "formik";
 
 function TheInput(props) {
-  const [input, setInput] = useState('')
+  function validateMail(value) {
+    let error
+    if (!value) {
+      error = 'Il campo mail è obbligatorio'
+    } else if (!(value.includes("@") && value.includes("."))) {
+      error = "Inserisci una mail valida"
+    }
+    return error
+  }
 
-  const handleInputChange = (e) => setInput(e.target.value)
+  function validatePassword(value){
+    let error
+    if (!value) {
+      error = 'Il campo password è obbligatorio'
+    }
+    return error
+  }
 
-    const isEmpty = input.length == 0
-    const isMail = true
-    const isError = isEmpty || isMail
+  function validateOnlyText(value){
+    let error
+    if (!value) {
+      error = 'Questo campo è obbligatorio'
+    } else if (value.includes("0") || value.includes("1") || value.includes("2") || value.includes("3") || value.includes("4") || value.includes("5") || value.includes("6") || value.includes("7") || value.includes("8") || value.includes("9")){
+      error = 'Questo campo non può contenere numeri'
+    }
+    return error
+  }
+
+  function validateOnlyNumber(value){
+    let error
+    if (!value) {
+      error = 'Questo campo è obbligatorio'
+    } else if (isNaN(value)){
+      error = 'Questo campo non può contenere Testo'
+    }
+    return error
+  }
 
   return (
-    <FormControl isInvalid={isError}>
-      <FormLabel htmlFor={props.ID}>{props.testoEtichetta}</FormLabel>
-      <InputGroup>
-        <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children='$' />
-        <Input id={props.ID} type={props.tipo} value={input} onChange={handleInputChange} />
-      </InputGroup>
-      {!isError ? (
-        <FormHelperText>
-          {props.help}
-        </FormHelperText>
-      ) : (
-        <FormErrorMessage>
-          <p>
-            Valore non valido
-            <List>
-              <ListItem>
-                Formato mail non valido
-              </ListItem>
-            </List>
-          </p>
-        </FormErrorMessage>
+    <Formik
+      initialValues={{ mail: null, password: null, username: null, avatar: null, nome: null, cognome: null, indirizzo: null, eta: null }}
+      onSubmit={(values, actions) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2))
+          actions.setSubmitting(false)
+        }, 1000)
+      }}
+      {(props) => (
+        <Form>
+          <Field name='mail' validate={validateMail}>
+            {({ field, form }) => (
+              <FormControl isInvalid={form.errors.mail && form.touched.mail}>
+                <FormLabel htmlFor='mail-input'>inserisci quì sotto la tua mail (ti manderemo una mail per confermare la tua iscrizione)</FormLabel>
+                <Input {...field} id='mail-input' placeholder='inserisci quì la tua mail' />
+                <FormErrorMessage>{form.errors.mail}</FormErrorMessage>
+              </FormControl>
+            )}
+          </Field>
+          <Button mt={4} colorScheme='teal' isLoading={props.isSubmitting} type='submit' > Submit </Button>
+        </Form>
       )}
-    </FormControl>
+    </Formik>
   )
 }
 
 
 
-
-function FormRegistrazione() {
-
-  return (
-    <div>
-      <TheInput tipo="email" ID="add-client-email" testoEtichetta="E-Mail" help="Inserisci quì la mail che dal momento in cui avrai completato la registrazione utilizzeremo per comunicazioni, biglietti, e altro ancora" />
-    </div>
-  );
-}
-
-
-export default FormRegistrazione;
+export default TheInput;
