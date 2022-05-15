@@ -63,7 +63,7 @@ import {
 
     return (
       <>
-        <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+        <Modal closeOnEsc={false} closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Inserimento {data.title}</ModalHeader>
