@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Box, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Flex } from '@chakra-ui/react'
+import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Box, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Flex, Grid, GridItem  } from '@chakra-ui/react'
 import { Formik, Field, Form } from "formik"
 import { EmailIcon, LockIcon, AttachmentIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { Input, InputGroup, InputLeftElement, InputRightElement, Button, Stack } from '@chakra-ui/react'
@@ -58,13 +58,13 @@ function TheInput(props) {
 
 
   return (
-    <Box>
+    <Box m={20}>
      { (esito != null) ?
           (esito == true) ?
             <Alert status='success'>
               <AlertIcon />
               <AlertTitle>Perfetto</AlertTitle>
-              <AlertDescription>la tua iscrizione è stata completata correttamente</AlertDescription>
+              <AlertDescription> la tua richiesta iscrizione è stata completata correttamente, controlla la casella di posta per confermare l'iscrizione</AlertDescription>
             </Alert>
           : 
           <Alert status='error'>
@@ -78,7 +78,6 @@ function TheInput(props) {
 
 
 
-<Box m={8} >
      <Formik initialValues={{
       mail: '',
       password: '',
@@ -108,10 +107,12 @@ function TheInput(props) {
       } >
       {(props) => (
       <Form>
-        <Flex >
+        <Grid templateRows='repeat(4, 1fr)' templateColumns='repeat(12, 1fr)' gap={4}>
+        <GridItem colSpan={5}>
           <Field name='mail' validate={validateMail}>
             {({ field, form }) => (
             <FormControl isInvalid={form.errors.mail && form.touched.mail}>
+            <FormLabel htmlFor='mail-input'>E-Mail</FormLabel>
             <InputGroup>
                <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
                <EmailIcon color={"gray.500"} />
@@ -121,10 +122,13 @@ function TheInput(props) {
             <FormErrorMessage>{form.errors.mail}</FormErrorMessage>
             </FormControl>
             )}
-         </Field>
+          </Field>
+        </GridItem>
+        <GridItem colSpan={5}>
          <Field name='password' validate={validatePassword}>
             {({ field, form }) => (
             <FormControl isInvalid={form.errors.password && form.touched.password}>
+            <FormLabel htmlFor='password-input'>Password</FormLabel>
             <InputGroup>
                <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
                <LockIcon color={"gray.500"} />
@@ -145,7 +149,8 @@ function TheInput(props) {
             </FormControl>
             )}
          </Field>
-         </Flex>
+        </GridItem>
+        <GridItem colSpan={2}>
          <Field name='username' validate={true}>
             {({ field, form }) => (
             <FormControl>
@@ -159,7 +164,8 @@ function TheInput(props) {
             </FormControl>
             )}
          </Field>
-         <Flex>
+        </GridItem>
+        <GridItem colSpan={6}>
          <Field name='nome' validate={validateOnlyText}>
             {({ field, form }) => (
             <FormControl isInvalid={form.errors.nome && form.touched.nome}>
@@ -174,6 +180,8 @@ function TheInput(props) {
             </FormControl>
             )}
          </Field>
+        </GridItem>
+        <GridItem colSpan={6}>
          <Field name='cognome' validate={validateOnlyText}>
             {({ field, form }) => (
             <FormControl isInvalid={form.errors.cognome && form.touched.cognome}>
@@ -188,10 +196,12 @@ function TheInput(props) {
             </FormControl> 
             )}
          </Field>
+        </GridItem>
+        <GridItem colSpan={2}>
          <Field name='eta' validate={validateOnlyFilled}>
             {({ field, form }) => (
             <FormControl isInvalid={form.errors.eta && form.touched.eta}>
-            <FormLabel htmlFor='eta-input'>inserisci quì sotto la tua età</FormLabel>
+            <FormLabel htmlFor='eta-input'>Età</FormLabel>
             <InputGroup>
                <NumberInput id='eta-input-group' variant={'filled'} min={0} max={125}>
                   <NumberInputField {...field} id='eta-input' placeholder='inserisci quì la tua età' />
@@ -201,7 +211,8 @@ function TheInput(props) {
             </FormControl>
             )}
          </Field>
-         </Flex>
+        </GridItem>
+        <GridItem colSpan={4}>
          <Field name='indirizzo' validate={true}>
             {({ field, form }) => (
             <FormControl>
@@ -213,11 +224,14 @@ function TheInput(props) {
             </FormControl>
             )}
          </Field>
-         <Button mt={4} colorScheme='teal' isLoading={props.isSubmitting} type='submit' > Conferma </Button>
+        </GridItem>
+        <GridItem colSpan={12}>
+         <Button mt={6} width={"100%"} colorScheme='teal' isLoading={props.isSubmitting} type='submit' > Conferma </Button>
+        </GridItem>
+        </Grid>
       </Form>
       )}
       </Formik>
-   </Box>
 
 
 

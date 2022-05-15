@@ -1,12 +1,6 @@
 import React from "react";
 import {
   ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
   theme,
 } from '@chakra-ui/react';
 import './App.css';
@@ -14,12 +8,11 @@ import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from './pages';
 import About from './pages/about.js';
-import Login from './pages/Login.js';
 import Profilo from './pages/profilo.js';
 import AddFilm from './pages/addFilm.js';
-import CinemaProiezione from './components/FilmCard/DetailsPopup'
 import Register from './pages/registrazione.js';
 import Posti from './components/Sala/Sala.js';
+import Graph from './components/qr/Grafico'
 
 function App() {
   return (
@@ -33,7 +26,7 @@ function App() {
         <Route path="registrazione" element={<Register />} />
         <Route path="sala" element={<Posti />} />
 
-        
+        <Route path="qr" element={<Graph />} />
 
       </Routes>
     </ChakraProvider>
