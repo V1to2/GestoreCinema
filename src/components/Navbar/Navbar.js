@@ -14,6 +14,7 @@ import axios from 'axios';
 import {
     chakra,
     Box,
+    Image,
     Flex,
     useColorModeValue,
     VisuallyHidden,
@@ -116,7 +117,7 @@ export default function Navbar() {
         <>
             <Nav>
                 <NavLogo to="/">
-                    Logo
+                    <Image draggable={false} boxSize='4rem' src="https://87.250.73.22/html/Ardizio/informatica/php/Progetto%20Cinema/immagini/logocinema.png" alt="Logo" />
                 </NavLogo>
                 <Bars>
                     <NavLink
