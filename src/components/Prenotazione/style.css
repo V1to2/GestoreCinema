@@ -1,0 +1,16 @@
+/* Split the screen in half */
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 40%;
+  width: 100%;
+  position: fixed;
+  overflow-x: hidden;
+}
+/* Control the left side */
+.top {
+    background-color: #111;
+    height: 80%;
+    width: 100%;
+}
+

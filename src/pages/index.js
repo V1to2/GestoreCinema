@@ -20,7 +20,7 @@ import { reactToString } from 'rsuite/esm/utils';
 import { pad } from 'lodash';
 import { Route } from 'react-router-dom';
 import CinemaProiezione from '../components/FilmCard/DetailsPopup'
-
+import Prenotazione from '../components/Prenotazione/prenotazione.js'
 const BASE_URL = "https://api.themoviedb.org/3";
 const api_key = '629cebc2d8655797238b9c58281509ae';
 const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
@@ -42,6 +42,8 @@ const Home = () => {
       setData(res.data.results);
       requestDati("cinema");
     });
+
+    console.log(datiBottone);
   }, []);
 
   function requestDati(dato) {
@@ -56,7 +58,7 @@ const Home = () => {
       });
   }
 
-  const [datiBottone, setDatiBottone] = useState([]);
+  const [datiBottone, setDatiBottone] = useState('');
   
   const infoBottone = (datiB) => {
     setDatiBottone(datiB);
@@ -94,7 +96,7 @@ const Home = () => {
 
 
       <div style={prenotazioneRapida}>
-        <p>psadpasdaspdasd</p>
+        <p></p>
       </div>
       <Slider infos={data} />
 
@@ -130,6 +132,8 @@ const Home = () => {
       <div className='movies__container'>
         {moviesList }
       </div>
+
+      {datiBottone != '' ? (<Prenotazione data={datiBottone} />) : (null)}
     </>
   );
 };

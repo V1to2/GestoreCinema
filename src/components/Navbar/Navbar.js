@@ -165,7 +165,7 @@ export default function Navbar() {
                             </MenuList>
                         </Menu>
                     ) : (
-                        <Login />
+                        <Login redirect={"profilo"}/>
                     )}
                 </NavMenu>
             </Nav>

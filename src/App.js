@@ -13,6 +13,7 @@ import AddFilm from './pages/addFilm.js';
 import Register from './pages/registrazione.js';
 import Posti from './components/Sala/Sala.js';
 import Graph from './components/qr/Grafico'
+import Prenotazione from './components/Prenotazione/prenotazione.js';
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
         <Route path="addFilm" element={<AddFilm />} />
         <Route path="registrazione" element={<Register />} />
         <Route path="sala" element={<Posti />} />
-
+        <Route path="prenotazione" element={<Prenotazione />} />
         <Route path="qr" element={<Graph />} />
 
       </Routes>
