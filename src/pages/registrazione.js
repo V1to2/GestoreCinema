@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Input, Button } from '@chakra-ui/react'
-import { Formik, Field, Form } from "formik";
+import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Box, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Flex } from '@chakra-ui/react'
+import { Formik, Field, Form } from "formik"
+import { EmailIcon, LockIcon, AttachmentIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import { Input, InputGroup, InputLeftElement, InputRightElement, Button, Stack } from '@chakra-ui/react'
+import { Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react'
+import axios from 'axios'
 
 function TheInput(props) {
+  const [show, setShow] = useState(false)
+  const [esito, setEsito] = useState(null)
+
   function validateMail(value) {
     let error
     if (!value) {
@@ -33,7 +40,7 @@ function TheInput(props) {
 
   function validateOnlyNumber(value){
     let error
-    if (!value) {
+    if (value.length == 0) {
       error = 'Questo campo è obbligatorio'
     } else if (isNaN(value)){
       error = 'Questo campo non può contenere Testo'
@@ -41,30 +48,180 @@ function TheInput(props) {
     return error
   }
 
+  function validateOnlyFilled(value){
+    let error
+    if (value.length == 0 || !value || value == null) {
+      error = 'Questo campo è obbligatorio'
+    }
+    return error
+  }
+
+
   return (
-    <Formik
-      initialValues={{ mail: null, password: null, username: null, avatar: null, nome: null, cognome: null, indirizzo: null, eta: null }}
-      onSubmit={(values, actions) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2))
-          actions.setSubmitting(false)
-        }, 1000)
-      }} >
+    <Box>
+     { (esito != null) ?
+          (esito == true) ?
+            <Alert status='success'>
+              <AlertIcon />
+              <AlertTitle>Perfetto</AlertTitle>
+              <AlertDescription>la tua iscrizione è stata completata correttamente</AlertDescription>
+            </Alert>
+          : 
+          <Alert status='error'>
+            <AlertIcon />
+            <AlertTitle>Oh Oh!</AlertTitle>
+            <AlertDescription>Qualcosa è andato storto, prova ad effetuare l'accesso, altrimenti ripeti l'iscrizione</AlertDescription>
+          </Alert>
+    :
+          <></>
+      }
+
+
+
+<Box m={8} >
+     <Formik initialValues={{
+      mail: '',
+      password: '',
+      username: '',
+      nome: '',
+      cognome: '',
+      indirizzo: '',
+      eta: ''
+      }}
+      onSubmit={(values, actions)=>{
+        axios.post(
+          "https://87.250.73.22/html/Ardizio/informatica/php/Progetto Cinema/api php/insertNewUser.php?"
+          + "mail=" + document.getElementById('mail-input').value
+          + "&password=" + document.getElementById('password-input').value
+          + "&username=" + document.getElementById('username-input').value
+          + "&nome=" + document.getElementById('nome-input').value
+          + "&cognome=" + document.getElementById('cognome-input').value
+          + "&indirizzo=" + document.getElementById('indirizzo-input').value
+          + "&eta=" + document.getElementById('eta-input').value
+        ).then((r)=>{
+          let c = r.data
+          console.log(c);
+          setEsito(c);
+        })
+        actions.setSubmitting(false)
+        }
+      } >
       {(props) => (
-        <Form>
+      <Form>
+        <Flex >
           <Field name='mail' validate={validateMail}>
             {({ field, form }) => (
-              <FormControl isInvalid={form.errors.mail && form.touched.mail}>
-                <FormLabel htmlFor='mail-input'>inserisci quì sotto la tua mail (ti manderemo una mail per confermare la tua iscrizione)</FormLabel>
-                <Input {...field} id='mail-input' placeholder='inserisci quì la tua mail' />
-                <FormErrorMessage>{form.errors.mail}</FormErrorMessage>
-              </FormControl>
+            <FormControl isInvalid={form.errors.mail && form.touched.mail}>
+            <InputGroup>
+               <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
+               <EmailIcon color={"gray.500"} />
+               } />
+               <Input {...field} id='mail-input' placeholder='inserisci quì la tua mail' variant={'filled'} />
+            </InputGroup>
+            <FormErrorMessage>{form.errors.mail}</FormErrorMessage>
+            </FormControl>
             )}
-          </Field>
-          <Button mt={4} colorScheme='teal' isLoading={props.isSubmitting} type='submit' > Submit </Button>
-        </Form>
+         </Field>
+         <Field name='password' validate={validatePassword}>
+            {({ field, form }) => (
+            <FormControl isInvalid={form.errors.password && form.touched.password}>
+            <InputGroup>
+               <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
+               <LockIcon color={"gray.500"} />
+               } />
+               <Input type={ (show) ? "text" : "password"} {...field} id='password-input' placeholder='inserisci quì la tua password' variant={'filled'} />
+               <InputRightElement>
+                  <Button onClick={()=>
+                     {setShow(!show)}}>
+                     {(show) ? 
+                     <ViewOffIcon m />
+                     : 
+                     <ViewIcon />
+                     }
+                  </Button>
+               </InputRightElement>
+            </InputGroup>
+            <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+            </FormControl>
+            )}
+         </Field>
+         </Flex>
+         <Field name='username' validate={true}>
+            {({ field, form }) => (
+            <FormControl>
+               <FormLabel htmlFor='username-input'>Se ti va, quì sotto puoi anche inserire uno username</FormLabel>
+               <InputGroup>
+                  <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
+                  <AttachmentIcon color={"gray.500"} />
+                  } />
+                  <Input {...field} id='username-input' placeholder='inserisci quì un tuo eventuale username (potrai impostarlo anche successivamente)' variant={'filled'} />
+               </InputGroup>
+            </FormControl>
+            )}
+         </Field>
+         <Flex>
+         <Field name='nome' validate={validateOnlyText}>
+            {({ field, form }) => (
+            <FormControl isInvalid={form.errors.nome && form.touched.nome}>
+            <FormLabel htmlFor='nome-input'>inserisci quì sotto il tuo nome di battesimo</FormLabel>
+            <InputGroup>
+               <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
+               <AttachmentIcon color={"gray.500"} />
+               } />
+               <Input {...field} id='nome-input' placeholder='inserisci quì il tuo nome' variant={'filled'} />
+            </InputGroup>
+            <FormErrorMessage>{form.errors.nome}</FormErrorMessage>
+            </FormControl>
+            )}
+         </Field>
+         <Field name='cognome' validate={validateOnlyText}>
+            {({ field, form }) => (
+            <FormControl isInvalid={form.errors.cognome && form.touched.cognome}>
+            <FormLabel htmlFor='cognome-input'>inserisci quì sotto il tuo cognome</FormLabel>
+            <InputGroup>
+               <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
+               <AttachmentIcon color={"gray.500"} />
+               } />
+               <Input {...field} id='cognome-input' placeholder='inserisci quì il tuo cognome' variant={'filled'} />
+            </InputGroup>
+            <FormErrorMessage>{form.errors.cognome}</FormErrorMessage>
+            </FormControl>
+            )}
+         </Field>
+         <Field name='eta' validate={validateOnlyFilled}>
+            {({ field, form }) => (
+            <FormControl isInvalid={form.errors.eta && form.touched.eta}>
+            <FormLabel htmlFor='eta-input'>inserisci quì sotto la tua età</FormLabel>
+            <InputGroup>
+               <NumberInput id='eta-input-group' variant={'filled'} min={0} max={125}>
+                  <NumberInputField {...field} id='eta-input' placeholder='inserisci quì la tua età' />
+               </NumberInput>
+            </InputGroup>
+            <FormErrorMessage>{form.errors.eta}</FormErrorMessage>
+            </FormControl>
+            )}
+         </Field>
+         </Flex>
+         <Field name='indirizzo' validate={true}>
+            {({ field, form }) => (
+            <FormControl>
+               <FormLabel htmlFor='indirizzo-input'>Se ti va, inserisci quì sotto il tuo indirizzo</FormLabel>
+               <InputGroup>
+                  <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={ <AttachmentIcon color={"gray.500"} /> } />
+                  <Input {...field} id='indirizzo-input' placeholder='inserisci quì il tuo indirizzo' variant={'filled'} />
+               </InputGroup>
+            </FormControl>
+            )}
+         </Field>
+         <Button mt={4} colorScheme='teal' isLoading={props.isSubmitting} type='submit' > Conferma </Button>
+      </Form>
       )}
-    </Formik>
+      </Formik>
+   </Box>
+
+
+
+    </Box>
   )
 }
 

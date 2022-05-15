@@ -16,7 +16,8 @@ export const NavLogo = styled(Link)`
   color: #fff;
   font-size: 2rem;
   text-decoration: none;
-  background: hsla(30deg, 70%, 90%, 0.5);
+  background: radial-gradient(orange, orange, darkorange, darkorange, black, black);
+  background: radial-gradient(hsla(0deg, 0%, 0%, 0.2), hsla(0deg, 0%, 0%, 0.2), transparent, transparent);
   border-radius: 50%;
   padding: 0.5rem;
 `;
