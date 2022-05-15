@@ -149,7 +149,7 @@ function TheInput(props) {
          <Field name='username' validate={true}>
             {({ field, form }) => (
             <FormControl>
-               <FormLabel htmlFor='username-input'>Se ti va, quì sotto puoi anche inserire uno username</FormLabel>
+               <FormLabel htmlFor='username-input'>Username</FormLabel>
                <InputGroup>
                   <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
                   <AttachmentIcon color={"gray.500"} />
@@ -163,7 +163,7 @@ function TheInput(props) {
          <Field name='nome' validate={validateOnlyText}>
             {({ field, form }) => (
             <FormControl isInvalid={form.errors.nome && form.touched.nome}>
-            <FormLabel htmlFor='nome-input'>inserisci quì sotto il tuo nome di battesimo</FormLabel>
+            <FormLabel htmlFor='nome-input'>Nome</FormLabel>
             <InputGroup>
                <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
                <AttachmentIcon color={"gray.500"} />
@@ -177,7 +177,7 @@ function TheInput(props) {
          <Field name='cognome' validate={validateOnlyText}>
             {({ field, form }) => (
             <FormControl isInvalid={form.errors.cognome && form.touched.cognome}>
-            <FormLabel htmlFor='cognome-input'>inserisci quì sotto il tuo cognome</FormLabel>
+            <FormLabel htmlFor='cognome-input'>Cognome</FormLabel>
             <InputGroup>
                <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
                <AttachmentIcon color={"gray.500"} />
@@ -185,7 +185,7 @@ function TheInput(props) {
                <Input {...field} id='cognome-input' placeholder='inserisci quì il tuo cognome' variant={'filled'} />
             </InputGroup>
             <FormErrorMessage>{form.errors.cognome}</FormErrorMessage>
-            </FormControl>
+            </FormControl> 
             )}
          </Field>
          <Field name='eta' validate={validateOnlyFilled}>
@@ -205,7 +205,7 @@ function TheInput(props) {
          <Field name='indirizzo' validate={true}>
             {({ field, form }) => (
             <FormControl>
-               <FormLabel htmlFor='indirizzo-input'>Se ti va, inserisci quì sotto il tuo indirizzo</FormLabel>
+               <FormLabel htmlFor='indirizzo-input'>indirizzo</FormLabel>
                <InputGroup>
                   <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={ <AttachmentIcon color={"gray.500"} /> } />
                   <Input {...field} id='indirizzo-input' placeholder='inserisci quì il tuo indirizzo' variant={'filled'} />
