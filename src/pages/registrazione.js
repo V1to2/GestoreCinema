@@ -1,355 +1,230 @@
-import React, { useEffect } from 'react';
-import {
-  chakra,
-  Box,
-  Flex,
-  useColorModeValue,
-  SimpleGrid,
-  GridItem,
-  Heading,
-  Text,
-  Stack,
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputLeftAddon,
-  FormHelperText,
-  Textarea,
-  Avatar,
-  Icon,
-  Button,
-  VisuallyHidden,
-  Select,
-  Checkbox,
-  RadioGroup,
-  Radio,
-} from '@chakra-ui/react';
-import { FaUser } from 'react-icons/fa';
-import { motion } from 'framer-motion';
-import axios from 'axios';
-export default function FormRegistrazione() {
-  function getBase64(file) {}
+import React, { useEffect, useState } from 'react'
+import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Box, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Flex } from '@chakra-ui/react'
+import { Formik, Field, Form } from "formik"
+import { EmailIcon, LockIcon, AttachmentIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import { Input, InputGroup, InputLeftElement, InputRightElement, Button, Stack } from '@chakra-ui/react'
+import { Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react'
+import axios from 'axios'
 
-  function checkDati() {
-    var nomeInserito = document.getElementById('first_name').value;
-    var cognomeInserito = document.getElementById('last_name').value;
-    var passwordInserita = document.getElementById('password').value;
-    var emailInserita = document.getElementById('email').value;
-    var dataNascitaInserita = document.getElementById('data_nascita').value;
-    var sessoInserito = document.getElementById('select_sesso').value;
-    var linkImmagine_ = document.getElementById('linkImmagine').value;
+function TheInput(props) {
+  const [show, setShow] = useState(false)
+  const [esito, setEsito] = useState(null)
 
-    console.log("Link: " + linkImmagine_)
+  function validateMail(value) {
+    let error
+    if (!value) {
+      error = 'Il campo mail è obbligatorio'
+    } else if (!(value.includes("@") && value.includes("."))) {
+      error = "Inserisci una mail valida"
+    }
+    return error
+  }
 
-    if (
-      nomeInserito.length > 25 ||
-      cognomeInserito.length > 25 ||
-      emailInserita.length > 50 ||
-      passwordInserita.length > 18
-    ) {} else {
-        inserimentoDati(
-          nomeInserito,
-          cognomeInserito,
-          passwordInserita,
-          emailInserita,
-          dataNascitaInserita,
-          sessoInserito,
-          linkImmagine_
-        );
+  function validatePassword(value){
+    let error
+    if (!value) {
+      error = 'Il campo password è obbligatorio'
+    }
+    return error
+  }
+
+  function validateOnlyText(value){
+    let error
+    if (!value) {
+      error = 'Questo campo è obbligatorio'
+    } else if (value.includes("0") || value.includes("1") || value.includes("2") || value.includes("3") || value.includes("4") || value.includes("5") || value.includes("6") || value.includes("7") || value.includes("8") || value.includes("9")){
+      error = 'Questo campo non può contenere numeri'
+    }
+    return error
+  }
+
+  function validateOnlyNumber(value){
+    let error
+    if (value.length == 0) {
+      error = 'Questo campo è obbligatorio'
+    } else if (isNaN(value)){
+      error = 'Questo campo non può contenere Testo'
+    }
+    return error
+  }
+
+  function validateOnlyFilled(value){
+    let error
+    if (value.length == 0 || !value || value == null) {
+      error = 'Questo campo è obbligatorio'
+    }
+    return error
+  }
+
+
+  return (
+    <Box>
+     { (esito != null) ?
+          (esito == true) ?
+            <Alert status='success'>
+              <AlertIcon />
+              <AlertTitle>Perfetto</AlertTitle>
+              <AlertDescription>la tua iscrizione è stata completata correttamente</AlertDescription>
+            </Alert>
+          : 
+          <Alert status='error'>
+            <AlertIcon />
+            <AlertTitle>Oh Oh!</AlertTitle>
+            <AlertDescription>Qualcosa è andato storto, prova ad effetuare l'accesso, altrimenti ripeti l'iscrizione</AlertDescription>
+          </Alert>
+    :
+          <></>
       }
 
 
-    function inserimentoDati(
-      nome,
-      cognome,
-      password,
-      email,
-      data,
-      sesso,
-      file
-    ) {
-      axios
-        .post(
-          'https://87.250.73.22/html/Zanchin/vcoopendays/insertUtente.php?nome=%27+' +
-            nome +
-            '%27&cognome=%27' +
-            cognome +
-            '%27&email=%27' +
-            email +
-            '%27&codiceMecc=%27AB123%27&password=%27' +
-            password +
-            '%27&classe=%27terza%27&sesso=%27' +
-            sesso +
-            '%27&dataNascita=%27' +
-            data +
-            '%27&profilepic=%27' +
-            file+
-            '%27'
-        )
-        .then(res => {
-          console.log(res);
-        });
-    }
-  }
 
-  return (
-    <Box bg={useColorModeValue('gray.50', 'inherit')} p={10}>
-      <Box>
-        <SimpleGrid
-          display={{ base: 'initial', md: 'grid' }}
-          columns={{ md: 3 }}
-          spacing={{ md: 6 }}
-        >
-          <motion.div
-            animate={{ opacity: [0, 1] }}
-            transition={{ duration: 0.7 }}
-          >
-            <GridItem colSpan={{ md: 1 }}>
-              <Box px={[4, 0]}>
-                <Heading fontSize="lg" fontWeight="md" lineHeight="6">
-                  Profilo
-                </Heading>
-                <Text
-                  mt={1}
-                  fontSize="sm"
-                  color={useColorModeValue('gray.600', 'gray.400')}
-                >
-                  Registrazione come visitatore al evento.
-                </Text>
-              </Box>
-            </GridItem>
-          </motion.div>
-          <GridItem mt={[5, null, 0]} colSpan={{ md: 2 }}>
-            <chakra.form
-              shadow="base"
-              rounded={[null, 'md']}
-              overflow={{ sm: 'hidden' }}
-            >
-              <motion.div
-                animate={{ opacity: [0, 1] }}
-                transition={{ duration: 1 }}
-              >
-                <Stack
-                  px={4}
-                  py={5}
-                  bg={useColorModeValue('white', 'gray.700')}
-                  spacing={6}
-                  p={{ sm: 6 }}
-                >
-                  <SimpleGrid columns={6} spacing={6}>
-                    <FormControl as={GridItem} colSpan={[6, 3]}>
-                      <FormLabel
-                        htmlFor="first_name"
-                        fontSize="sm"
-                        fontWeight="md"
-                        color={useColorModeValue('gray.700', 'gray.50')}
-                      >
-                        Nome
-                      </FormLabel>
+<Box m={8} >
+     <Formik initialValues={{
+      mail: '',
+      password: '',
+      username: '',
+      nome: '',
+      cognome: '',
+      indirizzo: '',
+      eta: ''
+      }}
+      onSubmit={(values, actions)=>{
+        axios.post(
+          "https://87.250.73.22/html/Ardizio/informatica/php/Progetto Cinema/api php/insertNewUser.php?"
+          + "mail=" + document.getElementById('mail-input').value
+          + "&password=" + document.getElementById('password-input').value
+          + "&username=" + document.getElementById('username-input').value
+          + "&nome=" + document.getElementById('nome-input').value
+          + "&cognome=" + document.getElementById('cognome-input').value
+          + "&indirizzo=" + document.getElementById('indirizzo-input').value
+          + "&eta=" + document.getElementById('eta-input').value
+        ).then((r)=>{
+          let c = r.data
+          console.log(c);
+          setEsito(c);
+        })
+        actions.setSubmitting(false)
+        }
+      } >
+      {(props) => (
+      <Form>
+        <Flex >
+          <Field name='mail' validate={validateMail}>
+            {({ field, form }) => (
+            <FormControl isInvalid={form.errors.mail && form.touched.mail}>
+            <InputGroup>
+               <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
+               <EmailIcon color={"gray.500"} />
+               } />
+               <Input {...field} id='mail-input' placeholder='inserisci quì la tua mail' variant={'filled'} />
+            </InputGroup>
+            <FormErrorMessage>{form.errors.mail}</FormErrorMessage>
+            </FormControl>
+            )}
+         </Field>
+         <Field name='password' validate={validatePassword}>
+            {({ field, form }) => (
+            <FormControl isInvalid={form.errors.password && form.touched.password}>
+            <InputGroup>
+               <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
+               <LockIcon color={"gray.500"} />
+               } />
+               <Input type={ (show) ? "text" : "password"} {...field} id='password-input' placeholder='inserisci quì la tua password' variant={'filled'} />
+               <InputRightElement>
+                  <Button onClick={()=>
+                     {setShow(!show)}}>
+                     {(show) ? 
+                     <ViewOffIcon m />
+                     : 
+                     <ViewIcon />
+                     }
+                  </Button>
+               </InputRightElement>
+            </InputGroup>
+            <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+            </FormControl>
+            )}
+         </Field>
+         </Flex>
+         <Field name='username' validate={true}>
+            {({ field, form }) => (
+            <FormControl>
+               <FormLabel htmlFor='username-input'>Username</FormLabel>
+               <InputGroup>
+                  <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
+                  <AttachmentIcon color={"gray.500"} />
+                  } />
+                  <Input {...field} id='username-input' placeholder='inserisci quì un tuo eventuale username (potrai impostarlo anche successivamente)' variant={'filled'} />
+               </InputGroup>
+            </FormControl>
+            )}
+         </Field>
+         <Flex>
+         <Field name='nome' validate={validateOnlyText}>
+            {({ field, form }) => (
+            <FormControl isInvalid={form.errors.nome && form.touched.nome}>
+            <FormLabel htmlFor='nome-input'>Nome</FormLabel>
+            <InputGroup>
+               <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
+               <AttachmentIcon color={"gray.500"} />
+               } />
+               <Input {...field} id='nome-input' placeholder='inserisci quì il tuo nome' variant={'filled'} />
+            </InputGroup>
+            <FormErrorMessage>{form.errors.nome}</FormErrorMessage>
+            </FormControl>
+            )}
+         </Field>
+         <Field name='cognome' validate={validateOnlyText}>
+            {({ field, form }) => (
+            <FormControl isInvalid={form.errors.cognome && form.touched.cognome}>
+            <FormLabel htmlFor='cognome-input'>Cognome</FormLabel>
+            <InputGroup>
+               <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={
+               <AttachmentIcon color={"gray.500"} />
+               } />
+               <Input {...field} id='cognome-input' placeholder='inserisci quì il tuo cognome' variant={'filled'} />
+            </InputGroup>
+            <FormErrorMessage>{form.errors.cognome}</FormErrorMessage>
+            </FormControl> 
+            )}
+         </Field>
+         <Field name='eta' validate={validateOnlyFilled}>
+            {({ field, form }) => (
+            <FormControl isInvalid={form.errors.eta && form.touched.eta}>
+            <FormLabel htmlFor='eta-input'>inserisci quì sotto la tua età</FormLabel>
+            <InputGroup>
+               <NumberInput id='eta-input-group' variant={'filled'} min={0} max={125}>
+                  <NumberInputField {...field} id='eta-input' placeholder='inserisci quì la tua età' />
+               </NumberInput>
+            </InputGroup>
+            <FormErrorMessage>{form.errors.eta}</FormErrorMessage>
+            </FormControl>
+            )}
+         </Field>
+         </Flex>
+         <Field name='indirizzo' validate={true}>
+            {({ field, form }) => (
+            <FormControl>
+               <FormLabel htmlFor='indirizzo-input'>indirizzo</FormLabel>
+               <InputGroup>
+                  <InputLeftElement pointerEvents='none' color='gray.300' fontSize='1.2em' children={ <AttachmentIcon color={"gray.500"} /> } />
+                  <Input {...field} id='indirizzo-input' placeholder='inserisci quì il tuo indirizzo' variant={'filled'} />
+               </InputGroup>
+            </FormControl>
+            )}
+         </Field>
+         <Button mt={4} colorScheme='teal' isLoading={props.isSubmitting} type='submit' > Conferma </Button>
+      </Form>
+      )}
+      </Formik>
+   </Box>
 
-                      <Input
-                        required
-                        type="text"
-                        name="first_name"
-                        id="first_name"
-                        autoComplete="given-name"
-                        mt={1}
-                        focusBorderColor="brand.400"
-                        shadow="sm"
-                        size="sm"
-                        w="full"
-                        rounded="md"
-                      />
-                      <FormLabel
-                        htmlFor="email"
-                        fontSize="sm"
-                        fontWeight="md"
-                        color={useColorModeValue('gray.700', 'gray.50')}
-                        marginTop="1vw"
-                      >
-                        Email
-                      </FormLabel>
-                      <Input
-                        placeholder="you@example.com"
-                        required
-                        type="email"
-                        name="email"
-                        id="email"
-                        autoComplete="family-name"
-                        mt={1}
-                        focusBorderColor="brand.400"
-                        shadow="sm"
-                        size="sm"
-                        w="full"
-                        rounded="md"
-                      />
-                    </FormControl>
 
-                    <FormControl as={GridItem} colSpan={[6, 3]}>
-                      <FormLabel
-                        htmlFor="last_name"
-                        fontSize="sm"
-                        fontWeight="md"
-                        color={useColorModeValue('gray.700', 'gray.50')}
-                      >
-                        Cognome
-                      </FormLabel>
-                      <Input
-                        required
-                        type="text"
-                        name="last_name"
-                        id="last_name"
-                        autoComplete="family-name"
-                        mt={1}
-                        focusBorderColor="brand.400"
-                        shadow="sm"
-                        size="sm"
-                        w="full"
-                        rounded="md"
-                      />
-                      <FormLabel
-                        htmlFor="password"
-                        fontSize="sm"
-                        fontWeight="md"
-                        color={useColorModeValue('gray.700', 'gray.50')}
-                        marginTop="1vw"
-                      >
-                        Password
-                      </FormLabel>
-                      <Input
-                        required
-                        type="password"
-                        name="password"
-                        id="password"
-                        autoComplete="family-name"
-                        mt={1}
-                        focusBorderColor="brand.400"
-                        shadow="sm"
-                        size="sm"
-                        w="full"
-                        rounded="md"
-                      />
-                    </FormControl>
-                  </SimpleGrid>
 
-                  <div>
-                    <SimpleGrid columns={2} spacing={2}>
-                      <FormControl as={GridItem} id="email" mt={1}>
-                        <FormLabel
-                          fontSize="sm"
-                          fontWeight="md"
-                          color={useColorModeValue('gray.700', 'gray.50')}
-                        >
-                          Data di nascita
-                        </FormLabel>
-                        <Input
-                          required
-                          type="date"
-                          name="data_nascita"
-                          id="data_nascita"
-                          autoComplete="family-name"
-                          mt={1}
-                          focusBorderColor="brand.400"
-                          shadow="sm"
-                          size="sm"
-                          w="full"
-                          rounded="md"
-                        />
-                      </FormControl>
-                      <FormControl as={GridItem} mt={1}>
-                        <FormLabel
-                          fontSize="sm"
-                          fontWeight="md"
-                          color={useColorModeValue('gray.700', 'gray.50')}
-                        >
-                          Sesso
-                        </FormLabel>
-                        <Select id="select_sesso" size={'sm'}>
-                          <option value="uomo">Uomo</option>
-                          <option value="donna">Donna</option>
-                          <option value="altro">Altro</option>
-                        </Select>
-                      </FormControl>
-                    </SimpleGrid>
-                  </div>
-
-                  <FormControl>
-                    <FormLabel
-                      fontSize="sm"
-                      fontWeight="md"
-                      color={useColorModeValue('gray.700', 'gray.50')}
-                    >
-                      Foto
-                    </FormLabel>
-                    <Flex alignItems="center" mt={1}>
-                      <Avatar
-                        boxSize={12}
-                        bg={useColorModeValue('gray.100', 'gray.800')}
-                        icon={
-                          <Icon
-                            as={FaUser}
-                            boxSize={9}
-                            mt={3}
-                            rounded="full"
-                            color={useColorModeValue('gray.300', 'gray.700')}
-                          />
-                        }
-                      />
-                      <Button
-                        type="button"
-                        ml={5}
-                        variant="outline"
-                        size="sm"
-                        fontWeight="medium"
-                        _focus={{ shadow: 'none' }}
-                      >
-                        Cambia
-                      </Button>
-                    </Flex>
-                  </FormControl>
-
-                  <FormControl>
-                    <FormLabel
-                      fontSize="sm"
-                      fontWeight="md"
-                      color={useColorModeValue('gray.700', 'gray.50')}
-                    >
-                      Link immagine profilo.
-                    </FormLabel>
-                    <Textarea
-                      mt={1}
-                      rows={3}
-                      shadow="sm"
-                      focusBorderColor="brand.400"
-                      fontSize={{ sm: 'sm' }}
-                      id="linkImmagine"
-                    />
-                  </FormControl>
-                </Stack>
-              </motion.div>
-              <Box
-                px={{ base: 4, sm: 6 }}
-                py={3}
-                bg={useColorModeValue('gray.50', 'gray.900')}
-                textAlign="right"
-              >
-                <Button onClick={checkDati} size="lg">
-                  Continua
-                </Button>
-              </Box>
-            </chakra.form>
-          </GridItem>
-        </SimpleGrid>
-      </Box>
-      <Box visibility={{ base: 'hidden', sm: 'visible' }} aria-hidden="true">
-        <Box py={5}>
-          <Box
-            borderTop="solid 1px"
-            borderTopColor={useColorModeValue('gray.200', 'whiteAlpha.200')}
-          ></Box>
-        </Box>
-      </Box>
     </Box>
-  );
+  )
 }
+
+
+
+export default TheInput;

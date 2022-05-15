@@ -66,22 +66,18 @@ export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack })
         if (hours != "") {
 
         } else {
-            var today = new Date();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-
-
             let counter = 0;
             var ore = new Array();
             var ora = { id: counter, inizio: 17.00, fine: Number(time_convert(1020 + film.runtime)) };
             ore.push(ora);
 
-
             while (ore[counter].fine.toFixed(0) <= 23 || ore[counter].fine.toFixed(0) == 0 || ore[counter].fine.toFixed(0) == 1) {
                 let o = time_convert((ore[counter].fine * 60) + film.runtime);
                 let fineTemp = Number(o);
-                ore.push({ id:counter, inizio: ore[counter].fine, fine: fineTemp });
+                ore.push({ id: counter + 1, inizio: ore[counter].fine, fine: fineTemp });
                 counter++;
             }
+
             setOre(ore);
             console.log(ore);
         }
@@ -109,18 +105,41 @@ export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack })
         closeBack(false)
         onClose()
     }
-
+    const [confermaTrue, setConfermaTrue] = useState(false);
     const toast = useToast()
-    function sendOre(){
+    function sendOre() {
         var id = document.getElementById("selOra").value;
-        if(id != 0){
+        setConfermaTrue(true);
+        if (id != 0) {
             toast({
-                title: `Non puoi selezionare quest'ora!`,
+                title: 'Attenzione',
+                description: `Selezionando quest'ora, le ore precedenti potrebbero diventare non disponibili`,
                 status: 'error',
-                duration: 3000,
+                duration: 9000,
+                position: 'top',
                 isClosable: true,
-              })
+            })
+        } else {
+            toast.closeAll()
         }
+    }
+    function confermaAdd(){
+        var id = document.getElementById("selOra").value;
+        var data = document.getElementById("selData").value;
+        console.log(film.title)
+        axios.post(
+            "https://87.250.73.22/html/Ardizio/informatica/php/Progetto Cinema/api php/insertNewProiezione.php?"
+            + "data=" + data
+            + "&oraInizio=" + (ore[id].inizio * 60)
+            + "&oraFine=" + (ore[id].fine * 60)
+            + "&durata=" + film.runtime
+            + "&sala_id=" + saleSel.checkboxes[0]
+            + "&Id_Cinema=" + saleSel.cinema
+            + "&film_id=" + film.title
+            ).then((r)=>{
+            let c = r.data
+            console.log(c);
+          })
     }
 
     useEffect(() => {
@@ -133,7 +152,7 @@ export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack })
 
     return (
         <Flex>
-            <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+            <Modal closeOnEsc={false} closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
                 {overlay}
                 <ModalContent>
                     <ModalHeader >
@@ -180,6 +199,27 @@ export default function ModalConfermaAdd({ saleSel, open, datiSale, closeBack })
                     </ModalBody>
 
                     <ModalFooter>
+                        {confermaTrue ? 
+                        (<Button
+                            colorScheme='teal'
+                            variant='outline'
+                            spinnerPlacement='start'
+                            marginRight={"4px"}
+                            onClick={confermaAdd}
+                        >
+                            Submit
+                        </Button>) : 
+                        (<Button
+                            isLoading
+                            loadingText='Loading'
+                            colorScheme='teal'
+                            variant='outline'
+                            spinnerPlacement='start'
+                            marginRight={"4px"}
+                        >
+                            Submit
+                        </Button>)}
+
                         <Button onClick={() => closeBack(false)}>Cancel</Button>
                     </ModalFooter>
                 </ModalContent>
