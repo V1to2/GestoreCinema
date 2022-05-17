@@ -36,10 +36,13 @@ const Home = () => {
     params: { api_key }
   });
 
+
   useEffect(() => {
-    getUpcoming.then((res) => {
-      console.log(res.data.results);
-      setData(res.data.results);
+    axios.get(
+      "https://87.250.73.22/html/Ardizio/informatica/php/Progetto%20Cinema/api%20php/Request.php?query=SELECT * FROM Film"
+    ).then((res) => {
+      console.log(res.data/*.results*/);
+      setData(res.data/*.results*/);
       requestDati("cinema");
     });
 
@@ -68,7 +71,7 @@ const Home = () => {
   ))
 
   const dati = getDati.map((d) => (
-    <option value={d.nome}>{d.nome}</option>
+    <option key={"Cinema-" + d.nome} value={d.nome}>{d.nome}</option>
   ))
 
   const divisore = {

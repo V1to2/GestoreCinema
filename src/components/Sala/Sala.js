@@ -26,7 +26,7 @@ function Sala(){
   useEffect(()=>{
     axios
     .get(
-      "https://87.250.73.22/html/Ardizio/informatica/php/Progetto Cinema/api php/"
+      "https://87.250.73.22/html/Ardizio/informatica/php/Progetto Cinema/api php/Request.php"
     ).then((result)=>{
       let dati = result.data
       console.log(dati)
