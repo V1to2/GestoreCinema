@@ -31,7 +31,7 @@ import {
     Select,
     Checkbox,
     Spacer,
-    useToast 
+    useToast
 } from '@chakra-ui/react';
 import {
     AiOutlineMenu,
@@ -111,33 +111,67 @@ export default function ModalDatiCinema({ cinemaSale }) {
             });
     }
 
-    function getSale() {
-        console.log(document.getElementById('selCinema').value)
-        if(document.getElementById('selCinema').value != ""){
+    function requestDati2() {
         //passare a questa funzione le cose da mettere nei filtri, tipo se passi cinema ti ritorna tutti i cinema presenti nel db
         axios
             .get(
-                'https://87.250.73.22/html/Popa/Cinema/PHP/getSale.php?cinema=' + document.getElementById('selCinema').value
-            )
-            .then(res => {
-                console.log(res.data);
-                setSale(res.data);
-            });
-        }else{
-            setSale([]);
-        }
+                "https://87.250.73.22/html/Ardizio/informatica/php/Progetto Cinema/api php/Request.php?query=" +
+                "SELECT * FROM `Cinema` WHERE `codice` IN (SELECT `cinema_id` FROM `Sala` WHERE `responsabile_id` = '" + getCookie("username") + "')"
+            ).then((result) => {
+                let dati = result.data
+                console.log(dati)
+                setCinemas(dati)
+            })
+    }
+
+    function getSale() {
+        if (getCookie("permessi") == 3) {
+            console.log(document.getElementById('selCinema').value)
+            if (document.getElementById('selCinema').value != "") {
+                //passare a questa funzione le cose da mettere nei filtri, tipo se passi cinema ti ritorna tutti i cinema presenti nel db
+                axios
+                    .get(
+                        'https://87.250.73.22/html/Popa/Cinema/PHP/getSale.php?cinema=' + document.getElementById('selCinema').value
+                    )
+                    .then(res => {
+                        console.log(res.data);
+                        setSale(res.data);
+                    });
+            } else {
+                setSale([]);
+            }
+        }else getSale2();
+    }
+
+    function getSale2() {
+
+        axios
+            .get(
+                "https://87.250.73.22/html/Ardizio/informatica/php/Progetto Cinema/api php/Request.php?query=" +
+                "SELECT * FROM `Sala` WHERE `responsabile_id` = '"+getCookie("username")+"' AND `cinema_id` = '"+document.getElementById('selCinema').value+"'"
+            ).then((result) => {
+                let dati = result.data
+                console.log(dati)
+                setSale(dati)
+            })
+
     }
 
     useEffect(() => {
-        requestDati()
+        if (getCookie("permessi") != 2)
+            requestDati()
+        else {
+            getSale2()
+            requestDati2()
+        }
         onOpen()
     }, [])
 
     const toast = useToast()
 
-    function chiusura(){
+    function chiusura() {
         onClose();
-        window.location.href="/";
+        window.location.href = "/";
     }
     function updateDatiFin() {
         var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
@@ -145,7 +179,7 @@ export default function ModalDatiCinema({ cinemaSale }) {
         for (var i = 0; i < checkboxes.length; i++) {
             array.push(checkboxes[i].value)
         }
-        if(document.getElementById('selCinema').value != "" && array.length != 0){
+        if (document.getElementById('selCinema').value != "" && array.length != 0) {
 
             datiFinali = {
                 cinema: document.getElementById('selCinema').value,
@@ -153,21 +187,21 @@ export default function ModalDatiCinema({ cinemaSale }) {
             }
             onClose()
             return datiFinali;
-        }else{
-            if(document.getElementById('selCinema').value == ""){
-            toast({
-                title: `Devi selezionare il cinema!`,
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-              })
-            }else{
+        } else {
+            if (document.getElementById('selCinema').value == "") {
+                toast({
+                    title: `Devi selezionare il cinema!`,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                })
+            } else {
                 toast({
                     title: `Devi selezionare almeno una sala!`,
                     status: 'error',
                     duration: 3000,
                     isClosable: true,
-                  })
+                })
             }
         }
     }
@@ -200,7 +234,7 @@ export default function ModalDatiCinema({ cinemaSale }) {
                             id="selCinema"
                             required="required"
                         >
-                            
+
                             <option value="">None</option>
                             {datiSel}
                         </Select>

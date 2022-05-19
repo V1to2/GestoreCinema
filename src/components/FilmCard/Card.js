@@ -57,10 +57,10 @@ export default function Movie({ infos, buttonType, datiBack }) {
             <div className='movie__infos'>
                 <MovieInfo name='anno' value={infos.release_date} />
                 <button onClick={() => datiBack(data)} className="movie__imdb-button">{buttonType}</button>
-            </div>
+            </div> 
             
             <Modal isCentered scrollBehavior={"inside"} finalFocusRef={finalRef} size={''} onClose={onClose} isOpen={isOpen}>
-                <ModalContent maxW="65rem">
+                <ModalContent maxW="75rem">
                     <ModalBody style={{ padding: "1rem" }}>
                         <Prenotazione key={"modalFor-" + infos.title} title={infos.title} imgPath={getImage(infos.poster_path)} trama={infos.overview} uscita={infos.release_date} close={onClose} />
                     </ModalBody>

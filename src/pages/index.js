@@ -36,10 +36,13 @@ const Home = () => {
     params: { api_key }
   });
 
+
   useEffect(() => {
-    getUpcoming.then((res) => {
-      console.log(res.data.results);
-      setData(res.data.results);
+    axios.get(
+      "https://87.250.73.22/html/Ardizio/informatica/php/Progetto%20Cinema/api%20php/Request.php?query=SELECT * FROM Film"
+    ).then((res) => {
+      console.log(res.data/*.results*/);
+      setData(res.data/*.results*/);
       requestDati("cinema");
     });
 
@@ -52,7 +55,7 @@ const Home = () => {
       .get(
         'https://87.250.73.22/html/Popa/Cinema/PHP/getCinema.php'
       )
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
         setDati(res.data);
       });
@@ -68,13 +71,42 @@ const Home = () => {
   ))
 
   const dati = getDati.map((d) => (
-    <option value={d.nome}>{d.nome}</option>
+    <option id={d.codice} key={d.codice} value={d.codice}>{d.nome}</option>
+  ))
+  const[filmFiltrati, setFilmFiltrati] = useState([]);
+  const[oreFiltrate, setoreFiltrate] = useState([]);
+  
+  const filmF = filmFiltrati.map((d) => (
+    <option id={d.id} key={d.id} value={d.id}>{d.title}</option>
   ))
 
+  const oreF = oreFiltrate.map((d) => (
+    <option id={d.id} key={d.id} value={d.id}>{d.oraInizio} - {d.oraFine}</option>
+  ))
+
+  function getFilmSelect(){
+    
+    axios.get(
+      "https://87.250.73.22/html/Ardizio/informatica/php/Progetto Cinema/api php/Request.php?query=" +
+      "SELECT * FROM `Film` WHERE `id` IN (SELECT `film_id` FROM `Proiezione` WHERE `Id_Cinema` = '"+document.getElementById("SelCinema").value+"')"
+    ).then((res) => {
+      setFilmFiltrati(res.data);
+    })
+  }
+
+  function getOreFilmSel(){
+    axios.get(
+      "https://87.250.73.22/html/Ardizio/informatica/php/Progetto Cinema/api php/Request.php?query=" +
+      "SELECT * FROM `Proiezione` WHERE `Id_Cinema` = '"+document.getElementById("SelCinema").value+"' AND `film_id` = '"+document.getElementById("selFilm").value+"'"
+    ).then((res) => {
+      console.log(res.data)
+      setoreFiltrate(res.data);
+    })
+  }
   const divisore = {
-    paddingTop: "3rem",
     width: "95%",
-    marginLeft: "3rem",
+    marginLeft: "1rem",
+    marginBottom: "1rem",
     display: "flex",
 
   };
@@ -96,7 +128,38 @@ const Home = () => {
 
 
       <div style={prenotazioneRapida}>
-        <p></p>
+      <div style={divisore}>
+        <Select
+          bg='RGBA(0, 0, 0, 0.64)'
+          borderColor='#2C7A7B'
+          color='white'
+          placeholder='Seleziona cinema'
+          id="SelCinema"
+          onChange={getFilmSelect}
+        >
+          {dati}
+        </Select>
+
+        <Select
+          bg='RGBA(0, 0, 0, 0.64)'
+          borderColor='#2C7A7B'
+          color='white'
+          placeholder='Film nella sala'
+          id="selFilm"
+          onChange={getOreFilmSel}
+        >
+          {filmF}
+        </Select>
+
+        <Select
+          bg='RGBA(0, 0, 0, 0.64)'
+          borderColor='#2C7A7B'
+          color='white'
+          placeholder='-'
+        >
+          {oreF}
+        </Select>
+      </div>
       </div>
       <Slider infos={data} />
 
@@ -106,6 +169,8 @@ const Home = () => {
           borderColor='#2C7A7B'
           color='white'
           placeholder='Seleziona cinema'
+          id="SelCinema"
+          onChange={getFilmSelect}
         >
           {dati}
         </Select>
@@ -114,9 +179,11 @@ const Home = () => {
           bg='RGBA(0, 0, 0, 0.64)'
           borderColor='#2C7A7B'
           color='white'
-          placeholder='Posti liberi'
+          placeholder='Film nella sala'
+          id="selFilm"
+          onChange={getOreFilmSel}
         >
-          {dati}
+          {filmF}
         </Select>
 
         <Select
@@ -125,11 +192,11 @@ const Home = () => {
           color='white'
           placeholder='-'
         >
-          {dati}
+          {oreF}
         </Select>
       </div>
 
-      <div className='movies__container'>
+      <div key={"div-slider"} className='movies__container'>
         {moviesList }
       </div>
 

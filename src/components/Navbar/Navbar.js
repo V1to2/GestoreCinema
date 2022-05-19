@@ -148,7 +148,7 @@ export default function Navbar() {
                                         Profilo
                                     </MenuItem>
                                 </Link>
-                                {permessi == 3 ? (
+                                {permessi >= 2 ? (
                                     <Link to="addFilm">
                                         <MenuItem icon={<BsPerson />} command="⌘T">
                                             Aggiungi film
