@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Grid, GridItem } from '@chakra-ui/react';
 import MovieList from "../Movie/MovieList";
 import Movie from "../FilmCard/Card";
 import axios from "axios";
@@ -62,7 +62,7 @@ function Profile() {
 
                     <TabPanels>
                         <TabPanel>
-                            {favourites!=null ? favourites.map((movie, i)=><Movie key={i} infos={movie} backgroundPath={movie.poster_path} />) : <p><strong>No Such Film</strong></p>}
+                            {(favourites!=null) ? <Grid templateColumns='repeat(5, 1fr)' gap={6}>{favourites.map((movie, i)=><GridItem><Movie key={i} infos={movie} backgroundPath={movie.poster_path} /></GridItem>)}</Grid> : <p><strong>No Such Film</strong></p>}
                         </TabPanel>
                         <TabPanel>
                             <p>two!</p>

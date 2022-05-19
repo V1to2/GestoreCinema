@@ -57,7 +57,7 @@ export default function Movie({ infos, buttonType, datiBack }) {
             <div className='movie__infos'>
                 <MovieInfo name='anno' value={infos.release_date} />
                 <button onClick={() => datiBack(data)} className="movie__imdb-button">{buttonType}</button>
-            </div>
+            </div> 
             
             <Modal isCentered scrollBehavior={"inside"} finalFocusRef={finalRef} size={''} onClose={onClose} isOpen={isOpen}>
                 <ModalContent maxW="75rem">
