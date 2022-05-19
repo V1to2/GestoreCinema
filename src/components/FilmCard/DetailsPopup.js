@@ -13,7 +13,7 @@ function Lista(props) {
             return <Text key={"ERROR-" + prId} color='tomato'>ERROR</Text>
     }
 
-    useEffect(()=>{ document.cookie = "targettedFilm=" + props.filTitle},[props.filTitle])
+    useEffect(()=>{ document.cookie = "targettedFilm=" + props.filmTitle},[props.filmTitle])
 
     return (
         <Box>
@@ -206,7 +206,7 @@ function DetailsPopup(props) {
                     Regista:             {regista[0].nome + " " + regista[0].cognome}
                 </pre>
                 <Box className="PopupFilm-Proiezioni">
-                    {(!(listaProiezioni != null && listaProiezioni.length > 0)) ? <Alert status='warning'><AlertIcon /> We can't find this Film in any Cinema</Alert> : <Lista filTitle={props.title} proiezioni={listaProiezioni} listaPosti={postiLiberi} />}
+                    {(!(listaProiezioni != null && listaProiezioni.length > 0)) ? <Alert status='warning'><AlertIcon /> We can't find this Film in any Cinema</Alert> : <Lista filmTitle={props.title} proiezioni={listaProiezioni} listaPosti={postiLiberi} />}
                 </Box>
             </div>
         </div>
