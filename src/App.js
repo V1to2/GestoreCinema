@@ -2,6 +2,7 @@ import React from "react";
 import {
   ChakraProvider,
   theme,
+  Box
 } from '@chakra-ui/react';
 import './App.css';
 import Navbar from "./components/Navbar/Navbar";
@@ -20,7 +21,7 @@ function App() {
     <ChakraProvider theme={theme}>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Box mb={"15rem"}><Home /></Box>} />
         <Route path="about" element={<About />} />
         <Route path="profilo" element={<Profilo />} />
         <Route path="addFilm" element={<AddFilm />} />

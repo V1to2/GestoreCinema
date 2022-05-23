@@ -58,7 +58,7 @@ export default function About() {
         console.log("cookie: " + tit)
         axios.get(
             "https://87.250.73.22/html/Ardizio/informatica/php/Progetto%20Cinema/api%20php/Request.php?query=" +
-            "SELECT S.nome AS nomeSala, S.cinema_id, C.nome AS nomeCinema, P.data, P.oraInizio, P.oraFine " +
+            "SELECT P.id AS idPro ,S.nome AS nomeSala, S.cinema_id, C.nome AS nomeCinema, P.data, P.oraInizio, P.oraFine " +
             "FROM Proiezione AS P INNER JOIN Sala AS S ON P.sala_id=S.nome INNER JOIN Cinema AS C ON C.codice=P.id_Cinema " +
             "WHERE P.film_id=(SELECT id FROM Film WHERE title='" + tit + "')"
         ).then((res) => {
@@ -70,6 +70,7 @@ export default function About() {
     }
 
     useEffect(() => {
+        if(getCookie("permessi") != 1){ window.location.href = "/" }
         onOpen(true)
         getSaleFromDB()
     }, [onOpen])
@@ -90,7 +91,7 @@ export default function About() {
                     </DrawerBody>
                 </DrawerContent>
             </Drawer>
-            {showSala ? <Sala cinemaID={showSala.cinema_id} sala={showSala.nomeSala} /> : <></>}
+            {showSala ? <Sala dati={showSala} idPro={sale[0].idPro} cinemaID={showSala.cinema_id} sala={showSala.nomeSala} /> : <></>}
         </>
     )
 }

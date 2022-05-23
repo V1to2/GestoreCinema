@@ -39,7 +39,8 @@ const Home = () => {
 
   useEffect(() => {
     axios.get(
-      "https://87.250.73.22/html/Ardizio/informatica/php/Progetto%20Cinema/api%20php/Request.php?query=SELECT * FROM Film"
+      "https://87.250.73.22/html/Ardizio/informatica/php/Progetto%20Cinema/api%20php/Request.php?query=" +
+      "SELECT * FROM Film WHERE id IN (SELECT film_id FROM Proiezione)"
     ).then((res) => {
       console.log(res.data/*.results*/);
       setData(res.data/*.results*/);
@@ -77,7 +78,7 @@ const Home = () => {
   const[oreFiltrate, setoreFiltrate] = useState([]);
   
   const filmF = filmFiltrati.map((d) => (
-    <option id={d.id} key={d.id} value={d.id}>{d.title}</option>
+    <option id={d.id} key={d.id} value={d.title}>{d.title}</option>
   ))
 
   const oreF = oreFiltrate.map((d) => (
@@ -95,6 +96,7 @@ const Home = () => {
   }
 
   function getOreFilmSel(){
+    /*
     axios.get(
       "https://87.250.73.22/html/Ardizio/informatica/php/Progetto Cinema/api php/Request.php?query=" +
       "SELECT * FROM `Proiezione` WHERE `Id_Cinema` = '"+document.getElementById("SelCinema").value+"' AND `film_id` = '"+document.getElementById("selFilm").value+"'"
@@ -102,6 +104,12 @@ const Home = () => {
       console.log(res.data)
       setoreFiltrate(res.data);
     })
+    */
+    console.log("sono dentro")
+    let filmTitle = document.getElementById('selFlm').value
+    console.log(filmTitle)
+    document.cookie = "targettedFilm=" + filmTitle
+    window.location.href = "prenota"
   }
   const divisore = {
     width: "95%",
@@ -136,29 +144,24 @@ const Home = () => {
           placeholder='Seleziona cinema'
           id="SelCinema"
           onChange={getFilmSelect}
+          ml={4}
+          mr={4}
         >
           {dati}
         </Select>
-
         <Select
           bg='RGBA(0, 0, 0, 0.64)'
           borderColor='#2C7A7B'
           color='white'
           placeholder='Film nella sala'
-          id="selFilm"
+          id="selFlm"
           onChange={getOreFilmSel}
+          ml={4}
+          mr={4}
         >
           {filmF}
         </Select>
 
-        <Select
-          bg='RGBA(0, 0, 0, 0.64)'
-          borderColor='#2C7A7B'
-          color='white'
-          placeholder='-'
-        >
-          {oreF}
-        </Select>
       </div>
       </div>
       <Slider infos={data} />
